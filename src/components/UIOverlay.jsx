@@ -52,9 +52,9 @@ export default function UIOverlay({
     <>
       {/* Top Header Removed completely per user request ("also remove the top part") */}
 
-      {/* Floating Action Buttons (Discreet top-right cluster, completely free of any top banner) */}
+      {/* Floating Action Buttons (Hidden on mobile for a completely clean view) */}
       <div 
-        className="fixed pointer-events-auto z-30 flex items-center gap-1.5 sm:gap-2"
+        className="fixed pointer-events-auto z-30 hide-on-mobile flex items-center gap-1.5 sm:gap-2"
         style={{
           top: 'max(12px, env(safe-area-inset-top, 12px))',
           right: 'max(12px, env(safe-area-inset-right, 12px))'
