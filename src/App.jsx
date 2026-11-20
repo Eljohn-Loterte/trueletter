@@ -19,35 +19,35 @@ const DEFAULT_PERFECT_SETTINGS = {
   autoRotate: false,       // Free orbit controls
   recipient: 'chuchu',     // Dear chuchu letter
   giftMessage: `Kind of funny at the start,
-Just a pretty passerby.
-Kept my guard up on the shore,
-Didn't even wonder why.
+Just a pretty face I knew.
+Kept a steady pace around my heart,
+Never thought I'd be liking you.
 
-Even with that cute half-smile,
-I was floating, calm and cool.
-Barely felt a single wave
-In my quiet little pool.
+Even when you flashed that smile,
+You were cute, yet I stayed cool.
+Thought I’d only stay a while,
+Keeping all my feelings mute.
 
-Easy though, the current pulled,
-Drifting closer day by day.
-Lost my footing, lost my tread,
-Letting all my doubts wash away.
+Even so crazy how the tides have turned,
+Pulling me beneath my tide.
+Slowly, little by little finally I learned,
+There's no more place to hide.
 
-Suddenly I hit the deep—
-FIN-ally it clicked so fast:
-I was drowning in your charm,
-Hooked and sinking hard at last.
+Suddenly I hit so deep,
+Drowning in the way you shine.
+Every glance was mine to keep,
+And I got hooked on every line.
 
-How'd "not really" turn to this?
-Now I'm swimming straight to you.
-Sea-riously swept away
-By a love I never knew.
+How'd I go from "nothing really",
+To swimming straight into the deep.
+Caught inside your current freely,
+Falling harder than I'll keep.
 
-All my guards are underwater,
+All my guards have washed away,
 No more trying to stay dry.
-Started out not caring much
-Now you're my whole ocean sky.`,
-  sender: 'chuchu'         // Sincerely yours, chuchu
+Started out with not much say
+Now you are my favorite why.`,
+  sender: 'Eljohn'         // Sincerely yours, Eljohn
 };
 
 export default function App() {

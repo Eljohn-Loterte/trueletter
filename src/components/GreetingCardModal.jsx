@@ -19,40 +19,41 @@ export default function GreetingCardModal({
   const sender = settings?.sender || 'Eljohn';
 
   const defaultPoem = `Kind of funny at the start,
-Just a pretty passerby.
-Kept my guard up on the shore,
-Didn't even wonder why.
+Just a pretty face I knew.
+Kept a steady pace around my heart,
+Never thought I'd be liking you.
 
-Even with that cute half-smile,
-I was floating, calm and cool.
-Barely felt a single wave
-In my quiet little pool.
+Even when you flashed that smile,
+You were cute, yet I stayed cool.
+Thought I’d only stay a while,
+Keeping all my feelings mute.
 
-Easy though, the current pulled,
-Drifting closer day by day.
-Lost my footing, lost my tread,
-Letting all my doubts wash away.
+Even so crazy how the tides have turned,
+Pulling me beneath my tide.
+Slowly, little by little finally I learned,
+There's no more place to hide.
 
-Suddenly I hit the deep—
-FIN-ally it clicked so fast:
-I was drowning in your charm,
-Hooked and sinking hard at last.
+Suddenly I hit so deep,
+Drowning in the way you shine.
+Every glance was mine to keep,
+And I got hooked on every line.
 
-How'd "not really" turn to this?
-Now I'm swimming straight to you.
-Sea-riously swept away
-By a love I never knew.
+How'd I go from "nothing really",
+To swimming straight into the deep.
+Caught inside your current freely,
+Falling harder than I'll keep.
 
-All my guards are underwater,
+All my guards have washed away,
 No more trying to stay dry.
-Started out not caring much
-Now you're my whole ocean sky.`;
+Started out with not much say
+Now you are my favorite why.`;
 
   const rawMessage = settings?.giftMessage;
   const isOldDefault = !rawMessage || 
     rawMessage.includes('Every petal in this bouquet was gathered') ||
     rawMessage.includes('Every petal gathered in the dawn') ||
-    rawMessage.includes('Kind of hard to focus when you’re floating through my mind');
+    rawMessage.includes('Kind of hard to focus when you’re floating through my mind') ||
+    rawMessage.includes('Just a pretty passerby');
   const activePoem = isOldDefault ? defaultPoem : rawMessage;
 
   useEffect(() => {
@@ -267,8 +268,8 @@ Now you're my whole ocean sky.`;
             <div
               style={{
                 fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
-                fontSize: '15px',
-                lineHeight: '1.55',
+                fontSize: '16.5px',
+                lineHeight: '1.48',
                 color: '#2a221b',
                 textAlign: 'center',
                 zIndex: 2,
@@ -282,14 +283,14 @@ Now you're my whole ocean sky.`;
                 const remainingLines = stanza.slice(1);
 
                 return (
-                  <div key={sIdx} style={{ marginBottom: '15px', lineHeight: '1.55', textAlign: 'center' }}>
+                  <div key={sIdx} style={{ marginBottom: sIdx < 2 ? '12px' : '0', lineHeight: '1.48', textAlign: 'center' }}>
                     <div>
                       {firstChar && (
                         <span
                           style={{
                             fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
                             fontWeight: 'bold',
-                            fontSize: '20px',
+                            fontSize: '22px',
                             color: '#8b261e',
                             textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)'
                           }}
@@ -667,8 +668,8 @@ Now you're my whole ocean sky.`;
               <div
                 style={{
                   fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
-                  fontSize: '15px',
-                  lineHeight: '1.55',
+                  fontSize: '16.5px',
+                  lineHeight: '1.48',
                   color: '#2a221b',
                   textAlign: 'center',
                   zIndex: 2,
@@ -682,14 +683,14 @@ Now you're my whole ocean sky.`;
                   const remainingLines = stanza.slice(1);
 
                   return (
-                    <div key={sIdx} style={{ marginBottom: '15px', lineHeight: '1.55', textAlign: 'center' }}>
+                    <div key={sIdx} style={{ marginBottom: sIdx < 2 ? '12px' : '0', lineHeight: '1.48', textAlign: 'center' }}>
                       <div>
                         {firstChar && (
                           <span
                             style={{
                               fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
                               fontWeight: 'bold',
-                              fontSize: '20px',
+                              fontSize: '22px',
                               color: '#8b261e',
                               textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)'
                             }}
