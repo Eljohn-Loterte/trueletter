@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
-import { X, ArrowLeft, Sparkles, BookOpen, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ArrowLeft, Sparkles } from 'lucide-react';
 import { soundManager } from '../utils/audioSynth.js';
 
 export default function GreetingCardModal({
@@ -89,9 +89,9 @@ Because loving you is deeper than the bottom of the sea.`;
   };
 
   // Dimensions of single page and 2-page spread
-  const pageWidth = 330;
-  const pageHeight = 490;
-  const spreadWidth = pageWidth * 2; // 660px
+  const pageWidth = 340;
+  const pageHeight = 500;
+  const spreadWidth = pageWidth * 2; // 680px
 
   // Split active poem into distinct stanzas (spelling K-E-E-S-H-A)
   const stanzas = activePoem
@@ -109,22 +109,19 @@ Because loving you is deeper than the bottom of the sea.`;
   const availableWidth = Math.max(260, windowWidth - 24);
   const availableHeight = Math.max(260, windowHeight - 32);
 
-  let targetWidth = spreadWidth;
-  if (!isBookOpen) {
-    targetWidth = pageWidth;
-  } else if (isSmallMobile && mobileFocus !== 'spread') {
-    targetWidth = pageWidth;
-  }
+  const activeTargetWidth = isBookOpen
+    ? (isSmallMobile && mobileFocus !== 'spread' ? pageWidth : spreadWidth)
+    : pageWidth;
 
-  const scaleRatio = Math.min(1, availableWidth / targetWidth, availableHeight / totalModalHeight);
+  const scaleRatio = Math.min(1, availableWidth / activeTargetWidth, availableHeight / totalModalHeight);
 
-  // When focused on Page 1 or Page 2 on small screens, shift translation
-  let containerTranslateX = 0;
+  // Shift offset for mobile single-page focus
+  let mobileShiftX = 0;
   if (isBookOpen && isSmallMobile) {
     if (mobileFocus === 'page1') {
-      containerTranslateX = pageWidth / 2; // bring left page to center
+      mobileShiftX = pageWidth / 2;
     } else if (mobileFocus === 'page2') {
-      containerTranslateX = -pageWidth / 2; // bring right page to center
+      mobileShiftX = -pageWidth / 2;
     }
   }
 
@@ -156,7 +153,7 @@ Because loving you is deeper than the bottom of the sea.`;
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          transform: `scale(${scaleRatio})`,
+          transform: `scale(${scaleRatio}) translateZ(0)`,
           transformOrigin: 'center center',
           transition: 'transform 0.35s ease'
         }}
@@ -179,7 +176,7 @@ Because loving you is deeper than the bottom of the sea.`;
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            zIndex: 30,
+            zIndex: 40,
             transition: 'background-color 0.2s ease, transform 0.15s ease'
           }}
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.4)')}
@@ -188,57 +185,439 @@ Because loving you is deeper than the bottom of the sea.`;
           <X size={20} />
         </button>
 
-        {/* 3D FLIP BOOK STAGE */}
+        {/* 3D FLIP BOOK STAGE
+            When closed: exactly pageWidth (340px) wide, dead center, NO black void on the left!
+            When open: expands smoothly to spreadWidth (680px). */}
         <div
           style={{
             position: 'relative',
-            width: `${isBookOpen ? spreadWidth : pageWidth}px`,
+            width: isBookOpen ? `${spreadWidth}px` : `${pageWidth}px`,
             height: `${pageHeight}px`,
             perspective: '2500px',
             userSelect: 'none',
-            transition: 'width 0.6s cubic-bezier(0.25, 1, 0.35, 1)'
+            transform: `translateX(${mobileShiftX}px)`,
+            transition: 'width 0.7s cubic-bezier(0.25, 1, 0.35, 1), transform 0.4s ease'
           }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          {/* THE 2-PAGE SPREAD CONTAINER */}
+          {/* ========================================================
+              1. PAGE 2 (INSIDE RIGHT PAGE)
+              When closed: sits at left: 0 underneath the cover leaf.
+              When open: moves to left: pageWidth (340px) on the right half.
+              ======================================================== */}
           <div
+            className="card-scroll"
             style={{
-              position: 'relative',
-              width: `${spreadWidth}px`,
+              position: 'absolute',
+              top: 0,
+              left: isBookOpen ? `${pageWidth}px` : 0,
+              width: `${pageWidth}px`,
               height: `${pageHeight}px`,
-              transformStyle: 'preserve-3d',
-              // When closed, offset by -pageWidth/2 so the closed front cover sits dead-center on screen!
-              transform: isBookOpen
-                ? `translateX(${containerTranslateX}px)`
-                : `translateX(-${pageWidth / 2}px)`,
-              transition: 'transform 0.75s cubic-bezier(0.25, 1, 0.35, 1), box-shadow 0.4s ease',
+              backgroundImage: "url('/paper-texture.jpg')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundColor: '#fbf4e6',
               borderRadius: '0',
-              boxShadow: isHovered
-                ? '0 30px 70px rgba(0, 0, 0, 0.65), 0 0 35px rgba(180, 150, 110, 0.25)'
-                : '0 22px 55px rgba(0, 0, 0, 0.5)'
+              border: '1px solid rgba(205, 190, 168, 0.8)',
+              boxShadow: isBookOpen
+                ? 'inset 0 0 45px rgba(180, 160, 130, 0.18), 0 20px 45px rgba(0, 0, 0, 0.4)'
+                : 'none',
+              padding: '28px 24px 22px 24px',
+              boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              WebkitOverflowScrolling: 'touch',
+              opacity: isBookOpen ? 1 : 0,
+              pointerEvents: isBookOpen ? 'auto' : 'none',
+              zIndex: 1,
+              transition: 'left 0.7s cubic-bezier(0.25, 1, 0.35, 1), opacity 0.3s ease 0.1s'
             }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
           >
-            {/* ========================================================
-                1. FIXED BASE (PAGE 2 - INSIDE RIGHT PAGE)
-                Sits on the right half of the spread (x: pageWidth -> spreadWidth).
-                Visible when the front cover leaf is flipped open!
-                ======================================================== */}
+            {/* Right Page Background SVG Borders */}
+            <svg
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+              viewBox={`0 0 ${pageWidth} ${pageHeight}`}
+            >
+              <rect
+                x="14"
+                y="14"
+                width={pageWidth - 28}
+                height={pageHeight - 28}
+                fill="none"
+                stroke="rgba(145, 120, 90, 0.55)"
+                strokeWidth="1.2"
+              />
+              <rect
+                x="19"
+                y="19"
+                width={pageWidth - 38}
+                height={pageHeight - 38}
+                fill="none"
+                stroke="rgba(145, 120, 90, 0.25)"
+                strokeWidth="0.8"
+              />
+              {/* Corner Accents */}
+              <path d={`M ${pageWidth - 19},29 L ${pageWidth - 29},29 L ${pageWidth - 29},19`} fill="none" stroke="rgba(145, 120, 90, 0.6)" strokeWidth="1" />
+              <path d={`M ${pageWidth - 19},${pageHeight - 29} L ${pageWidth - 29},${pageHeight - 29} L ${pageWidth - 29},${pageHeight - 19}`} fill="none" stroke="rgba(145, 120, 90, 0.6)" strokeWidth="1" />
+            </svg>
+
+            {/* Stanzas 4, 5, 6 (S, H, A) */}
+            <div
+              style={{
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: '12px',
+                lineHeight: '1.65',
+                color: '#2d251f',
+                zIndex: 2,
+                marginTop: '6px'
+              }}
+            >
+              {rightPageStanzas.map((stanza, sIdx) => {
+                const firstLine = stanza[0] || '';
+                const firstChar = firstLine.charAt(0);
+                const firstLineRest = firstLine.slice(1);
+                const remainingLines = stanza.slice(1);
+
+                return (
+                  <div key={sIdx} style={{ marginBottom: '13px', lineHeight: '1.65' }}>
+                    {firstChar && (
+                      <span
+                        style={{
+                          float: 'left',
+                          fontSize: '40px',
+                          lineHeight: '32px',
+                          paddingTop: '2px',
+                          paddingRight: firstChar === 'I' ? '4px' : '6px',
+                          fontFamily: "'Cormorant Garamond', Georgia, serif",
+                          fontWeight: 'bold',
+                          color: '#8b261e',
+                          textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)',
+                          userSelect: 'none'
+                        }}
+                      >
+                        {firstChar}
+                      </span>
+                    )}
+                    <span style={{ fontStyle: 'italic' }}>{firstLineRest}</span>
+                    {remainingLines.map((line, idx) => (
+                      <React.Fragment key={idx}>
+                        <br />
+                        <span style={{ fontStyle: 'italic' }}>{line}</span>
+                      </React.Fragment>
+                    ))}
+                    <div style={{ clear: 'both' }} />
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Sign-off & Page Number */}
+            <div style={{ zIndex: 2, marginTop: 'auto', paddingTop: '8px' }}>
+              <div style={{ textAlign: 'right' }}>
+                <p
+                  style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: '11px',
+                    letterSpacing: '0.5px',
+                    color: '#6e6052',
+                    margin: '0 0 1px 0'
+                  }}
+                >
+                  Sincerely yours,
+                </p>
+                <h2
+                  style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontSize: '26px',
+                    fontWeight: 'bold',
+                    fontStyle: 'italic',
+                    color: '#8b261e',
+                    textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)',
+                    margin: 0
+                  }}
+                >
+                  {sender} ❤️
+                </h2>
+              </div>
+
+              <div style={{ textAlign: 'center', marginTop: '6px' }}>
+                <span
+                  style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontSize: '12px',
+                    fontStyle: 'italic',
+                    color: '#8c765e'
+                  }}
+                >
+                  ~ 2 ~
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* ========================================================
+              2. 3D FLIPPING LEAF (FRONT COVER + PAGE 1)
+              Hinged on the spine.
+              When closed: at left: 0, rotateY(0deg), showing Front Cover!
+              When opened: spine moves to left: pageWidth, and rotates -180deg!
+              Back of leaf lands on left half as Page 1!
+              ======================================================== */}
+          <div
+            onClick={handleToggleOpen}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: isBookOpen ? `${pageWidth}px` : 0,
+              width: `${pageWidth}px`,
+              height: `${pageHeight}px`,
+              transformOrigin: 'left center', // Spine hinge
+              transformStyle: 'preserve-3d',
+              transform: isBookOpen ? 'rotateY(-180deg)' : 'rotateY(0deg)',
+              transition: 'transform 0.8s cubic-bezier(0.25, 1, 0.35, 1), left 0.7s cubic-bezier(0.25, 1, 0.35, 1)',
+              cursor: 'pointer',
+              zIndex: 10
+            }}
+          >
+            {/* ----------------------------------------------------
+                2A. FRONT OF LEAF: THE COVER PAGE
+                Visible when closed.
+                Squared-Up Typography Lockup:
+                "Astory
+                 to Tell
+                 all caps
+                 small A big Story
+                 big T small tell to show design"
+                ---------------------------------------------------- */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+                backgroundImage: "url('/paper-texture.jpg')",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundColor: '#fbf4e6',
+                borderRadius: '0',
+                border: '1px solid rgba(205, 190, 168, 0.85)',
+                boxShadow: isHovered
+                  ? 'inset 0 0 45px rgba(180, 160, 130, 0.2), 0 25px 60px rgba(0, 0, 0, 0.6)'
+                  : 'inset 0 0 45px rgba(180, 160, 130, 0.18), 0 20px 48px rgba(0, 0, 0, 0.48)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '24px',
+                boxSizing: 'border-box',
+                overflow: 'hidden'
+              }}
+            >
+              {/* Vintage Outer Borders & Corner Accents SVG */}
+              <svg
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+                viewBox={`0 0 ${pageWidth} ${pageHeight}`}
+              >
+                <rect
+                  x="16"
+                  y="16"
+                  width={pageWidth - 32}
+                  height={pageHeight - 32}
+                  fill="none"
+                  stroke="rgba(145, 120, 90, 0.65)"
+                  strokeWidth="1.5"
+                />
+                <rect
+                  x="22"
+                  y="22"
+                  width={pageWidth - 44}
+                  height={pageHeight - 44}
+                  fill="none"
+                  stroke="rgba(145, 120, 90, 0.35)"
+                  strokeWidth="0.8"
+                />
+                {/* 4 Corner Ornaments */}
+                <path d="M 22,34 L 34,34 L 34,22" fill="none" stroke="rgba(145, 120, 90, 0.7)" strokeWidth="1.2" />
+                <circle cx="28" cy="28" r="1.5" fill="rgba(145, 120, 90, 0.75)" />
+
+                <path d={`M ${pageWidth - 22},34 L ${pageWidth - 34},34 L ${pageWidth - 34},22`} fill="none" stroke="rgba(145, 120, 90, 0.7)" strokeWidth="1.2" />
+                <circle cx={pageWidth - 28} cy="28" r="1.5" fill="rgba(145, 120, 90, 0.75)" />
+
+                <path d={`M 22,${pageHeight - 34} L 34,${pageHeight - 34} L 34,${pageHeight - 22}`} fill="none" stroke="rgba(145, 120, 90, 0.7)" strokeWidth="1.2" />
+                <circle cx="28" cy={pageHeight - 28} r="1.5" fill="rgba(145, 120, 90, 0.75)" />
+
+                <path d={`M ${pageWidth - 22},${pageHeight - 34} L ${pageWidth - 34},${pageHeight - 34} L ${pageWidth - 34},${pageHeight - 22}`} fill="none" stroke="rgba(145, 120, 90, 0.7)" strokeWidth="1.2" />
+                <circle cx={pageWidth - 28} cy={pageHeight - 28} r="1.5" fill="rgba(145, 120, 90, 0.75)" />
+
+                {/* Header Fleuron */}
+                <path
+                  d={`M ${pageWidth / 2 - 20},42 Q ${pageWidth / 2},35 ${pageWidth / 2 + 20},42`}
+                  fill="none"
+                  stroke="rgba(145, 120, 90, 0.5)"
+                  strokeWidth="1"
+                />
+                <circle cx={pageWidth / 2} cy="38" r="2" fill="rgba(145, 120, 90, 0.65)" />
+
+                {/* Footer Fleuron */}
+                <path
+                  d={`M ${pageWidth / 2 - 20},${pageHeight - 42} Q ${pageWidth / 2},${pageHeight - 35} ${pageWidth / 2 + 20},${pageHeight - 42}`}
+                  fill="none"
+                  stroke="rgba(145, 120, 90, 0.5)"
+                  strokeWidth="1"
+                />
+                <circle cx={pageWidth / 2} cy={pageHeight - 38} r="2" fill="rgba(145, 120, 90, 0.65)" />
+              </svg>
+
+              {/* ========================================================
+                  SQUARED-UP TITLE TYPOGRAPHY (Matching Reference Image)
+                  Line 1: small "A", big "STORY"
+                  Line 2: small "TO", big "T" (crimson), small "ELL"
+                  ALL CAPS, Flush Justified Block Lockup!
+                  ======================================================== */}
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '240px',
+                  padding: '16px 14px',
+                  border: '1.5px solid rgba(139, 38, 30, 0.35)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.22)',
+                  boxShadow: '0 4px 18px rgba(145, 120, 90, 0.12), inset 0 0 12px rgba(255, 255, 255, 0.4)',
+                  userSelect: 'none',
+                  zIndex: 2
+                }}
+              >
+                {/* ROW 1: small A (18px) + big STORY (44px) flush to edges */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'baseline',
+                    justifyContent: 'space-between',
+                    width: '100%',
+                    lineHeight: 0.95,
+                    marginBottom: '6px'
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "'Plus Jakarta Sans', 'Poppins', sans-serif",
+                      fontSize: '18px',
+                      fontWeight: '800',
+                      letterSpacing: '2px',
+                      color: '#423328'
+                    }}
+                  >
+                    A
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'Plus Jakarta Sans', 'Poppins', 'Impact', sans-serif",
+                      fontSize: '44px',
+                      fontWeight: '900',
+                      letterSpacing: '3px',
+                      color: '#1a1410'
+                    }}
+                  >
+                    STORY
+                  </span>
+                </div>
+
+                {/* ROW 2: small TO (18px) + big T (44px, crimson) + small ELL (24px) flush to edges */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'baseline',
+                    justifyContent: 'space-between',
+                    width: '100%',
+                    lineHeight: 0.95
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "'Plus Jakarta Sans', 'Poppins', sans-serif",
+                      fontSize: '18px',
+                      fontWeight: '800',
+                      letterSpacing: '2px',
+                      color: '#423328'
+                    }}
+                  >
+                    TO
+                  </span>
+                  <div style={{ display: 'flex', alignItems: 'baseline' }}>
+                    <span
+                      style={{
+                        fontFamily: "'Plus Jakarta Sans', 'Poppins', 'Impact', sans-serif",
+                        fontSize: '44px',
+                        fontWeight: '900',
+                        letterSpacing: '1px',
+                        color: '#8b261e' // Big crimson T accent
+                      }}
+                    >
+                      T
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "'Plus Jakarta Sans', 'Poppins', 'Impact', sans-serif",
+                        fontSize: '24px',
+                        fontWeight: '900',
+                        letterSpacing: '2.5px',
+                        color: '#1a1410'
+                      }}
+                    >
+                      ELL
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Tap to Open Prompt */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '34px',
+                  left: 0,
+                  right: 0,
+                  textAlign: 'center',
+                  pointerEvents: 'none'
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: '11px',
+                    letterSpacing: '2.5px',
+                    textTransform: 'uppercase',
+                    color: 'rgba(120, 95, 70, 0.75)'
+                  }}
+                >
+                  tap book to open ↻
+                </span>
+              </div>
+            </div>
+
+            {/* ----------------------------------------------------
+                2B. BACK OF LEAF: PAGE 1 (INSIDE LEFT PAGE)
+                Visible when flipped open (rotateY: -180deg).
+                Flipped 180deg relative to leaf so it faces user when open!
+                ---------------------------------------------------- */}
             <div
               className="card-scroll"
               style={{
                 position: 'absolute',
-                top: 0,
-                left: `${pageWidth}px`,
-                width: `${pageWidth}px`,
-                height: `${pageHeight}px`,
+                inset: 0,
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+                transform: 'rotateY(180deg)',
                 backgroundImage: "url('/paper-texture.jpg')",
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundColor: '#fbf4e6',
                 borderRadius: '0',
                 border: '1px solid rgba(205, 190, 168, 0.8)',
-                boxShadow: 'inset 0 0 45px rgba(180, 160, 130, 0.18)',
+                boxShadow: 'inset 0 0 45px rgba(180, 160, 130, 0.18), 0 20px 45px rgba(0, 0, 0, 0.4)',
                 padding: '28px 24px 22px 24px',
                 boxSizing: 'border-box',
                 display: 'flex',
@@ -246,11 +625,10 @@ Because loving you is deeper than the bottom of the sea.`;
                 justifyContent: 'space-between',
                 overflowY: 'auto',
                 overflowX: 'hidden',
-                WebkitOverflowScrolling: 'touch',
-                zIndex: 1
+                WebkitOverflowScrolling: 'touch'
               }}
             >
-              {/* Right Page Background SVG Borders */}
+              {/* Left Page Background SVG Borders */}
               <svg
                 style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
                 viewBox={`0 0 ${pageWidth} ${pageHeight}`}
@@ -273,23 +651,39 @@ Because loving you is deeper than the bottom of the sea.`;
                   stroke="rgba(145, 120, 90, 0.25)"
                   strokeWidth="0.8"
                 />
-                {/* Corner Accents */}
-                <path d={`M ${pageWidth - 19},29 L ${pageWidth - 29},29 L ${pageWidth - 29},19`} fill="none" stroke="rgba(145, 120, 90, 0.6)" strokeWidth="1" />
-                <path d={`M ${pageWidth - 19},${pageHeight - 29} L ${pageWidth - 29},${pageHeight - 29} L ${pageWidth - 29},${pageHeight - 19}`} fill="none" stroke="rgba(145, 120, 90, 0.6)" strokeWidth="1" />
+                {/* Corner Accents on Left */}
+                <path d="M 19,29 L 29,29 L 29,19" fill="none" stroke="rgba(145, 120, 90, 0.6)" strokeWidth="1" />
+                <path d={`M 19,${pageHeight - 29} L 29,${pageHeight - 29} L 29,${pageHeight - 19}`} fill="none" stroke="rgba(145, 120, 90, 0.6)" strokeWidth="1" />
               </svg>
 
-              {/* Stanzas 4, 5, 6 (S, H, A) */}
+              {/* Top Header: A letter 4 u */}
+              <div style={{ textAlign: 'center', marginBottom: '10px', flexShrink: 0, zIndex: 2 }}>
+                <p
+                  style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    textTransform: 'uppercase',
+                    letterSpacing: '4px',
+                    color: '#5c4d3e',
+                    margin: 0
+                  }}
+                >
+                  A letter 4 u
+                </p>
+              </div>
+
+              {/* Stanzas 1, 2, 3 (K, E, E) */}
               <div
                 style={{
                   fontFamily: "'Poppins', sans-serif",
                   fontSize: '12px',
                   lineHeight: '1.65',
                   color: '#2d251f',
-                  zIndex: 2,
-                  marginTop: '6px'
+                  zIndex: 2
                 }}
               >
-                {rightPageStanzas.map((stanza, sIdx) => {
+                {leftPageStanzas.map((stanza, sIdx) => {
                   const firstLine = stanza[0] || '';
                   const firstChar = firstLine.charAt(0);
                   const firstLineRest = firstLine.slice(1);
@@ -328,461 +722,40 @@ Because loving you is deeper than the bottom of the sea.`;
                 })}
               </div>
 
-              {/* Sign-off & Page Number */}
-              <div style={{ zIndex: 2, marginTop: 'auto', paddingTop: '8px' }}>
-                <div style={{ textAlign: 'right' }}>
-                  <p
-                    style={{
-                      fontFamily: "'Poppins', sans-serif",
-                      fontSize: '11px',
-                      letterSpacing: '0.5px',
-                      color: '#6e6052',
-                      margin: '0 0 1px 0'
-                    }}
-                  >
-                    Sincerely yours,
-                  </p>
-                  <h2
-                    style={{
-                      fontFamily: "'Cormorant Garamond', Georgia, serif",
-                      fontSize: '26px',
-                      fontWeight: 'bold',
-                      fontStyle: 'italic',
-                      color: '#8b261e',
-                      textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)',
-                      margin: 0
-                    }}
-                  >
-                    {sender} ❤️
-                  </h2>
-                </div>
-
-                <div style={{ textAlign: 'center', marginTop: '6px' }}>
-                  <span
-                    style={{
-                      fontFamily: "'Cormorant Garamond', Georgia, serif",
-                      fontSize: '12px',
-                      fontStyle: 'italic',
-                      color: '#8c765e'
-                    }}
-                  >
-                    ~ 2 ~
-                  </span>
-                </div>
+              {/* Page Number */}
+              <div style={{ textAlign: 'center', marginTop: 'auto', paddingTop: '6px', zIndex: 2 }}>
+                <span
+                  style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontSize: '12px',
+                    fontStyle: 'italic',
+                    color: '#8c765e'
+                  }}
+                >
+                  ~ 1 ~
+                </span>
               </div>
             </div>
+          </div>
 
-            {/* ========================================================
-                2. 3D FLIPPING LEAF (FRONT COVER + PAGE 1)
-                Hinged at the center spine (x = pageWidth).
-                When closed: rotateY(0deg) covers Right Page (Page 2).
-                When opened: rotateY(-180deg) flips over to Left Page (Page 1)!
-                ======================================================== */}
+          {/* ========================================================
+              3. CENTRAL BOOK SPINE CREASE SHADOW
+              Adds authentic depth down the center crease when open.
+              ======================================================== */}
+          {isBookOpen && (
             <div
-              onClick={handleToggleOpen}
               style={{
                 position: 'absolute',
                 top: 0,
-                left: `${pageWidth}px`,
-                width: `${pageWidth}px`,
-                height: `${pageHeight}px`,
-                transformOrigin: 'left center', // Central spine hinge
-                transformStyle: 'preserve-3d',
-                transform: isBookOpen ? 'rotateY(-180deg)' : 'rotateY(0deg)',
-                transition: 'transform 0.85s cubic-bezier(0.25, 1, 0.35, 1)',
-                cursor: 'pointer',
-                zIndex: isBookOpen ? 10 : 20
+                left: `${pageWidth - 14}px`,
+                width: '28px',
+                height: '100%',
+                background: 'linear-gradient(to right, rgba(0,0,0,0.18), rgba(0,0,0,0.03) 30%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.03) 70%, rgba(0,0,0,0.18))',
+                pointerEvents: 'none',
+                zIndex: 15
               }}
-            >
-              {/* ----------------------------------------------------
-                  2A. FRONT OF LEAF: THE FRONT COVER
-                  Visible when closed (rotateY: 0deg).
-                  Requested Design:
-                  "Astory
-                   to Tell
-                   all caps
-                   small A big Story
-                   big T small tell to show design"
-                  ---------------------------------------------------- */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  backfaceVisibility: 'hidden',
-                  WebkitBackfaceVisibility: 'hidden',
-                  backgroundImage: "url('/paper-texture.jpg')",
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundColor: '#fbf4e6',
-                  borderRadius: '0',
-                  border: '1px solid rgba(205, 190, 168, 0.8)',
-                  boxShadow: 'inset 0 0 45px rgba(180, 160, 130, 0.18)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '24px',
-                  boxSizing: 'border-box',
-                  overflow: 'hidden'
-                }}
-              >
-                {/* Vintage Border & Corner Accents SVG */}
-                <svg
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
-                  viewBox={`0 0 ${pageWidth} ${pageHeight}`}
-                >
-                  {/* Outer Frame */}
-                  <rect
-                    x="16"
-                    y="16"
-                    width={pageWidth - 32}
-                    height={pageHeight - 32}
-                    fill="none"
-                    stroke="rgba(145, 120, 90, 0.65)"
-                    strokeWidth="1.5"
-                  />
-                  {/* Inner Hairline Frame */}
-                  <rect
-                    x="22"
-                    y="22"
-                    width={pageWidth - 44}
-                    height={pageHeight - 44}
-                    fill="none"
-                    stroke="rgba(145, 120, 90, 0.35)"
-                    strokeWidth="0.8"
-                  />
-                  {/* 4 Corner Ornaments */}
-                  <path d="M 22,34 L 34,34 L 34,22" fill="none" stroke="rgba(145, 120, 90, 0.7)" strokeWidth="1.2" />
-                  <circle cx="28" cy="28" r="1.5" fill="rgba(145, 120, 90, 0.75)" />
-
-                  <path d={`M ${pageWidth - 22},34 L ${pageWidth - 34},34 L ${pageWidth - 34},22`} fill="none" stroke="rgba(145, 120, 90, 0.7)" strokeWidth="1.2" />
-                  <circle cx={pageWidth - 28} cy="28" r="1.5" fill="rgba(145, 120, 90, 0.75)" />
-
-                  <path d={`M 22,${pageHeight - 34} L 34,${pageHeight - 34} L 34,${pageHeight - 22}`} fill="none" stroke="rgba(145, 120, 90, 0.7)" strokeWidth="1.2" />
-                  <circle cx="28" cy={pageHeight - 28} r="1.5" fill="rgba(145, 120, 90, 0.75)" />
-
-                  <path d={`M ${pageWidth - 22},${pageHeight - 34} L ${pageWidth - 34},${pageHeight - 34} L ${pageWidth - 34},${pageHeight - 22}`} fill="none" stroke="rgba(145, 120, 90, 0.7)" strokeWidth="1.2" />
-                  <circle cx={pageWidth - 28} cy={pageHeight - 28} r="1.5" fill="rgba(145, 120, 90, 0.75)" />
-
-                  {/* Header Fleuron */}
-                  <path
-                    d={`M ${pageWidth / 2 - 20},42 Q ${pageWidth / 2},35 ${pageWidth / 2 + 20},42`}
-                    fill="none"
-                    stroke="rgba(145, 120, 90, 0.5)"
-                    strokeWidth="1"
-                  />
-                  <circle cx={pageWidth / 2} cy="38" r="2" fill="rgba(145, 120, 90, 0.65)" />
-
-                  {/* Footer Fleuron */}
-                  <path
-                    d={`M ${pageWidth / 2 - 20},${pageHeight - 42} Q ${pageWidth / 2},${pageHeight - 35} ${pageWidth / 2 + 20},${pageHeight - 42}`}
-                    fill="none"
-                    stroke="rgba(145, 120, 90, 0.5)"
-                    strokeWidth="1"
-                  />
-                  <circle cx={pageWidth / 2} cy={pageHeight - 38} r="2" fill="rgba(145, 120, 90, 0.65)" />
-                </svg>
-
-                {/* ========================================================
-                    FRONT COVER TYPOGRAPHY
-                    Line 1: small "A", big "STORY"
-                    Line 2: small "TO", big "T", small "ELL"
-                    ALL CAPS, Editorial Vintage Elegance
-                    ======================================================== */}
-                <div style={{ textAlign: 'center', userSelect: 'none', padding: '0 16px', zIndex: 2 }}>
-                  {/* Line 1: small A, big STORY */}
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'baseline',
-                      justifyContent: 'center',
-                      gap: '10px',
-                      lineHeight: 1,
-                      marginBottom: '8px'
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "'Poppins', sans-serif",
-                        fontSize: '15px',
-                        fontWeight: '600',
-                        letterSpacing: '5px',
-                        textTransform: 'uppercase',
-                        color: '#6e5a46',
-                        transform: 'translateY(-2px)'
-                      }}
-                    >
-                      A
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "'Cormorant Garamond', Georgia, serif",
-                        fontSize: '44px',
-                        fontWeight: '700',
-                        letterSpacing: '5px',
-                        textTransform: 'uppercase',
-                        color: '#2a221b',
-                        textShadow: '0 1px 2px rgba(0, 0, 0, 0.08)'
-                      }}
-                    >
-                      STORY
-                    </span>
-                  </div>
-
-                  {/* Delicate ornamental divider */}
-                  <div
-                    style={{
-                      margin: '10px auto 14px auto',
-                      width: '74px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '6px'
-                    }}
-                  >
-                    <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(145, 120, 90, 0.45)' }} />
-                    <span style={{ fontSize: '10px', color: 'rgba(145, 120, 90, 0.7)' }}>✦</span>
-                    <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(145, 120, 90, 0.45)' }} />
-                  </div>
-
-                  {/* Line 2: TO, big T, small TELL */}
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'baseline',
-                      justifyContent: 'center',
-                      gap: '8px',
-                      lineHeight: 1
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "'Poppins', sans-serif",
-                        fontSize: '15px',
-                        fontWeight: '600',
-                        letterSpacing: '4px',
-                        textTransform: 'uppercase',
-                        color: '#6e5a46',
-                        transform: 'translateY(-2px)'
-                      }}
-                    >
-                      TO
-                    </span>
-                    <div style={{ display: 'inline-flex', alignItems: 'baseline' }}>
-                      <span
-                        style={{
-                          fontFamily: "'Cormorant Garamond', Georgia, serif",
-                          fontSize: '44px',
-                          fontWeight: '700',
-                          letterSpacing: '2px',
-                          textTransform: 'uppercase',
-                          color: '#8b261e', // Crimson emphasis on the big T
-                          textShadow: '0 1px 2px rgba(0, 0, 0, 0.08)'
-                        }}
-                      >
-                        T
-                      </span>
-                      <span
-                        style={{
-                          fontFamily: "'Cormorant Garamond', Georgia, serif",
-                          fontSize: '24px',
-                          fontWeight: '700',
-                          letterSpacing: '4px',
-                          textTransform: 'uppercase',
-                          color: '#2a221b',
-                          textShadow: '0 1px 2px rgba(0, 0, 0, 0.08)'
-                        }}
-                      >
-                        ELL
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom Tap to Open Prompt */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '34px',
-                    left: 0,
-                    right: 0,
-                    textAlign: 'center',
-                    pointerEvents: 'none'
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "'Poppins', sans-serif",
-                      fontSize: '11px',
-                      letterSpacing: '2.5px',
-                      textTransform: 'uppercase',
-                      color: 'rgba(120, 95, 70, 0.75)'
-                    }}
-                  >
-                    tap book to open ↻
-                  </span>
-                </div>
-              </div>
-
-              {/* ----------------------------------------------------
-                  2B. BACK OF LEAF: PAGE 1 (INSIDE LEFT PAGE)
-                  Visible when flipped open (rotateY: -180deg).
-                  Flipped 180deg relative to leaf so it faces user when open!
-                  ---------------------------------------------------- */}
-              <div
-                className="card-scroll"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  backfaceVisibility: 'hidden',
-                  WebkitBackfaceVisibility: 'hidden',
-                  transform: 'rotateY(180deg)',
-                  backgroundImage: "url('/paper-texture.jpg')",
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundColor: '#fbf4e6',
-                  borderRadius: '0',
-                  border: '1px solid rgba(205, 190, 168, 0.8)',
-                  boxShadow: 'inset 0 0 45px rgba(180, 160, 130, 0.18)',
-                  padding: '28px 24px 22px 24px',
-                  boxSizing: 'border-box',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  overflowY: 'auto',
-                  overflowX: 'hidden',
-                  WebkitOverflowScrolling: 'touch'
-                }}
-              >
-                {/* Left Page Background SVG Borders */}
-                <svg
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
-                  viewBox={`0 0 ${pageWidth} ${pageHeight}`}
-                >
-                  <rect
-                    x="14"
-                    y="14"
-                    width={pageWidth - 28}
-                    height={pageHeight - 28}
-                    fill="none"
-                    stroke="rgba(145, 120, 90, 0.55)"
-                    strokeWidth="1.2"
-                  />
-                  <rect
-                    x="19"
-                    y="19"
-                    width={pageWidth - 38}
-                    height={pageHeight - 38}
-                    fill="none"
-                    stroke="rgba(145, 120, 90, 0.25)"
-                    strokeWidth="0.8"
-                  />
-                  {/* Corner Accents on Left */}
-                  <path d="M 19,29 L 29,29 L 29,19" fill="none" stroke="rgba(145, 120, 90, 0.6)" strokeWidth="1" />
-                  <path d={`M 19,${pageHeight - 29} L 29,${pageHeight - 29} L 29,${pageHeight - 19}`} fill="none" stroke="rgba(145, 120, 90, 0.6)" strokeWidth="1" />
-                </svg>
-
-                {/* Top Header: A letter 4 u */}
-                <div style={{ textAlign: 'center', marginBottom: '10px', flexShrink: 0, zIndex: 2 }}>
-                  <p
-                    style={{
-                      fontFamily: "'Poppins', sans-serif",
-                      fontSize: '11px',
-                      fontWeight: '600',
-                      textTransform: 'uppercase',
-                      letterSpacing: '4px',
-                      color: '#5c4d3e',
-                      margin: 0
-                    }}
-                  >
-                    A letter 4 u
-                  </p>
-                </div>
-
-                {/* Stanzas 1, 2, 3 (K, E, E) */}
-                <div
-                  style={{
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: '12px',
-                    lineHeight: '1.65',
-                    color: '#2d251f',
-                    zIndex: 2
-                  }}
-                >
-                  {leftPageStanzas.map((stanza, sIdx) => {
-                    const firstLine = stanza[0] || '';
-                    const firstChar = firstLine.charAt(0);
-                    const firstLineRest = firstLine.slice(1);
-                    const remainingLines = stanza.slice(1);
-
-                    return (
-                      <div key={sIdx} style={{ marginBottom: '13px', lineHeight: '1.65' }}>
-                        {firstChar && (
-                          <span
-                            style={{
-                              float: 'left',
-                              fontSize: '40px',
-                              lineHeight: '32px',
-                              paddingTop: '2px',
-                              paddingRight: firstChar === 'I' ? '4px' : '6px',
-                              fontFamily: "'Cormorant Garamond', Georgia, serif",
-                              fontWeight: 'bold',
-                              color: '#8b261e',
-                              textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)',
-                              userSelect: 'none'
-                            }}
-                          >
-                            {firstChar}
-                          </span>
-                        )}
-                        <span style={{ fontStyle: 'italic' }}>{firstLineRest}</span>
-                        {remainingLines.map((line, idx) => (
-                          <React.Fragment key={idx}>
-                            <br />
-                            <span style={{ fontStyle: 'italic' }}>{line}</span>
-                          </React.Fragment>
-                        ))}
-                        <div style={{ clear: 'both' }} />
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Page Number */}
-                <div style={{ textAlign: 'center', marginTop: 'auto', paddingTop: '6px', zIndex: 2 }}>
-                  <span
-                    style={{
-                      fontFamily: "'Cormorant Garamond', Georgia, serif",
-                      fontSize: '12px',
-                      fontStyle: 'italic',
-                      color: '#8c765e'
-                    }}
-                  >
-                    ~ 1 ~
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* ========================================================
-                3. CENTRAL BOOK SPINE CREASE SHADOW
-                Enhances 3D depth down the center fold when open.
-                ======================================================== */}
-            {isBookOpen && (
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: `${pageWidth - 14}px`,
-                  width: '28px',
-                  height: '100%',
-                  background: 'linear-gradient(to right, rgba(0,0,0,0.18), rgba(0,0,0,0.03) 30%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.03) 70%, rgba(0,0,0,0.18))',
-                  pointerEvents: 'none',
-                  zIndex: 15
-                }}
-              />
-            )}
-          </div>
+            />
+          )}
         </div>
 
         {/* INTERACTION TOOLBAR BELOW FLIP BOOK */}
@@ -821,7 +794,7 @@ Because loving you is deeper than the bottom of the sea.`;
             <span>{isBookOpen ? 'Close Book' : 'Open Book'}</span>
           </button>
 
-          {/* Small Screen Page Selector (Spread / Page 1 / Page 2) */}
+          {/* Small Screen Page Focus (Page 1 / Both / Page 2) */}
           {isBookOpen && isSmallMobile && (
             <div
               style={{
