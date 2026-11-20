@@ -207,7 +207,6 @@ Because loving you is deeper than the bottom of the sea.`;
               When open: moves to left: pageWidth (340px) on the right half.
               ======================================================== */}
           <div
-            className="card-scroll"
             style={{
               position: 'absolute',
               top: 0,
@@ -223,14 +222,12 @@ Because loving you is deeper than the bottom of the sea.`;
               boxShadow: isBookOpen
                 ? 'inset 0 0 45px rgba(180, 160, 130, 0.18), 0 20px 45px rgba(0, 0, 0, 0.4)'
                 : 'none',
-              padding: '28px 24px 22px 24px',
+              padding: '24px 20px 18px 20px',
               boxSizing: 'border-box',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
-              overflowY: 'auto',
-              overflowX: 'hidden',
-              WebkitOverflowScrolling: 'touch',
+              overflow: 'hidden',
               opacity: isBookOpen ? 1 : 0,
               pointerEvents: isBookOpen ? 'auto' : 'none',
               zIndex: 1,
@@ -269,11 +266,11 @@ Because loving you is deeper than the bottom of the sea.`;
             <div
               style={{
                 fontFamily: "'Poppins', sans-serif",
-                fontSize: '12px',
-                lineHeight: '1.65',
+                fontSize: '11px',
+                lineHeight: '1.52',
                 color: '#2d251f',
                 zIndex: 2,
-                marginTop: '6px'
+                marginTop: '4px'
               }}
             >
               {rightPageStanzas.map((stanza, sIdx) => {
@@ -283,15 +280,15 @@ Because loving you is deeper than the bottom of the sea.`;
                 const remainingLines = stanza.slice(1);
 
                 return (
-                  <div key={sIdx} style={{ marginBottom: '13px', lineHeight: '1.65' }}>
+                  <div key={sIdx} style={{ marginBottom: '9px', lineHeight: '1.52' }}>
                     {firstChar && (
                       <span
                         style={{
                           float: 'left',
-                          fontSize: '40px',
-                          lineHeight: '32px',
-                          paddingTop: '2px',
-                          paddingRight: firstChar === 'I' ? '4px' : '6px',
+                          fontSize: '34px',
+                          lineHeight: '26px',
+                          paddingTop: '1px',
+                          paddingRight: firstChar === 'I' ? '4px' : '5px',
                           fontFamily: "'Cormorant Garamond', Georgia, serif",
                           fontWeight: 'bold',
                           color: '#8b261e',
@@ -316,12 +313,12 @@ Because loving you is deeper than the bottom of the sea.`;
             </div>
 
             {/* Sign-off & Page Number */}
-            <div style={{ zIndex: 2, marginTop: 'auto', paddingTop: '8px' }}>
+            <div style={{ zIndex: 2, marginTop: 'auto', paddingTop: '4px' }}>
               <div style={{ textAlign: 'right' }}>
                 <p
                   style={{
                     fontFamily: "'Poppins', sans-serif",
-                    fontSize: '11px',
+                    fontSize: '10px',
                     letterSpacing: '0.5px',
                     color: '#6e6052',
                     margin: '0 0 1px 0'
@@ -332,7 +329,7 @@ Because loving you is deeper than the bottom of the sea.`;
                 <h2
                   style={{
                     fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontSize: '26px',
+                    fontSize: '22px',
                     fontWeight: 'bold',
                     fontStyle: 'italic',
                     color: '#8b261e',
@@ -344,11 +341,11 @@ Because loving you is deeper than the bottom of the sea.`;
                 </h2>
               </div>
 
-              <div style={{ textAlign: 'center', marginTop: '6px' }}>
+              <div style={{ textAlign: 'center', marginTop: '4px' }}>
                 <span
                   style={{
                     fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontSize: '12px',
+                    fontSize: '11px',
                     fontStyle: 'italic',
                     color: '#8c765e'
                   }}
@@ -602,7 +599,6 @@ Because loving you is deeper than the bottom of the sea.`;
                 Flipped 180deg relative to leaf so it faces user when open!
                 ---------------------------------------------------- */}
             <div
-              className="card-scroll"
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -616,14 +612,12 @@ Because loving you is deeper than the bottom of the sea.`;
                 borderRadius: '0',
                 border: '1px solid rgba(205, 190, 168, 0.8)',
                 boxShadow: 'inset 0 0 45px rgba(180, 160, 130, 0.18), 0 20px 45px rgba(0, 0, 0, 0.4)',
-                padding: '28px 24px 22px 24px',
+                padding: '24px 20px 18px 20px',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                overflowY: 'auto',
-                overflowX: 'hidden',
-                WebkitOverflowScrolling: 'touch'
+                overflow: 'hidden'
               }}
             >
               {/* Left Page Background SVG Borders */}
@@ -655,7 +649,7 @@ Because loving you is deeper than the bottom of the sea.`;
               </svg>
 
               {/* Top Header: A letter 4 u */}
-              <div style={{ textAlign: 'center', marginBottom: '10px', flexShrink: 0, zIndex: 2 }}>
+              <div style={{ textAlign: 'center', marginBottom: '8px', flexShrink: 0, zIndex: 2 }}>
                 <p
                   style={{
                     fontFamily: "'Poppins', sans-serif",
@@ -675,8 +669,8 @@ Because loving you is deeper than the bottom of the sea.`;
               <div
                 style={{
                   fontFamily: "'Poppins', sans-serif",
-                  fontSize: '12px',
-                  lineHeight: '1.65',
+                  fontSize: '11px',
+                  lineHeight: '1.52',
                   color: '#2d251f',
                   zIndex: 2
                 }}
@@ -688,15 +682,15 @@ Because loving you is deeper than the bottom of the sea.`;
                   const remainingLines = stanza.slice(1);
 
                   return (
-                    <div key={sIdx} style={{ marginBottom: '13px', lineHeight: '1.65' }}>
+                    <div key={sIdx} style={{ marginBottom: '9px', lineHeight: '1.52' }}>
                       {firstChar && (
                         <span
                           style={{
                             float: 'left',
-                            fontSize: '40px',
-                            lineHeight: '32px',
-                            paddingTop: '2px',
-                            paddingRight: firstChar === 'I' ? '4px' : '6px',
+                            fontSize: '34px',
+                            lineHeight: '26px',
+                            paddingTop: '1px',
+                            paddingRight: firstChar === 'I' ? '4px' : '5px',
                             fontFamily: "'Cormorant Garamond', Georgia, serif",
                             fontWeight: 'bold',
                             color: '#8b261e',
@@ -721,11 +715,11 @@ Because loving you is deeper than the bottom of the sea.`;
               </div>
 
               {/* Page Number */}
-              <div style={{ textAlign: 'center', marginTop: 'auto', paddingTop: '6px', zIndex: 2 }}>
+              <div style={{ textAlign: 'center', marginTop: 'auto', paddingTop: '4px', zIndex: 2 }}>
                 <span
                   style={{
                     fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontSize: '12px',
+                    fontSize: '11px',
                     fontStyle: 'italic',
                     color: '#8c765e'
                   }}
@@ -735,25 +729,6 @@ Because loving you is deeper than the bottom of the sea.`;
               </div>
             </div>
           </div>
-
-          {/* ========================================================
-              3. CENTRAL BOOK SPINE CREASE SHADOW
-              Adds authentic depth down the center crease when open.
-              ======================================================== */}
-          {isBookOpen && (
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: `${pageWidth - 14}px`,
-                width: '28px',
-                height: '100%',
-                background: 'linear-gradient(to right, rgba(0,0,0,0.18), rgba(0,0,0,0.03) 30%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.03) 70%, rgba(0,0,0,0.18))',
-                pointerEvents: 'none',
-                zIndex: 15
-              }}
-            />
-          )}
         </div>
 
         {/* INTERACTION TOOLBAR BELOW FLIP BOOK */}
