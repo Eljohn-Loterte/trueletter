@@ -138,7 +138,7 @@ export default function BouquetCanvas({
           onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1.0)')}
         >
           <MousePointerClick size={13} style={{ color: '#facc15' }} />
-          <span>Tap letter 📖</span>
+          <span>A story to tell 📖</span>
         </span>
       </div>
     </div>

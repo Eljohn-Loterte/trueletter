@@ -87,8 +87,8 @@ export function createGiftTag(recipient = "chuchu", message = "", sender = "chuc
     ctx.lineTo(canvasWidth - innerM - cSize, canvasHeight - innerM);
     ctx.stroke();
 
-    // 3. "LETTER OF TRUTH" in a Wave Arc (NO emoji circle)
-    const text = 'LETTER OF TRUTH';
+    // 3. "A STORY TO TELL" in a Wave Arc (NO emoji circle)
+    const text = 'A STORY TO TELL';
     const chars = text.split('');
     const totalChars = chars.length;
     const startX = 65;

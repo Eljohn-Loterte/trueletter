@@ -266,7 +266,7 @@ button {
   }
 }
 
-/* Custom parchment scrollbar for letter card */
+/* Custom scrollbar for letter card */
 .card-scroll::-webkit-scrollbar {
   width: 5px;
 }
@@ -274,11 +274,11 @@ button {
   background: transparent;
 }
 .card-scroll::-webkit-scrollbar-thumb {
-  background: rgba(180, 140, 100, 0.35);
+  background: rgba(244, 63, 94, 0.3);
   border-radius: 9999px;
 }
 .card-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgba(180, 140, 100, 0.65);
+  background: rgba(244, 63, 94, 0.6);
 }
 
 
