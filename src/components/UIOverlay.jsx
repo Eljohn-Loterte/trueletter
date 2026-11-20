@@ -48,18 +48,31 @@ export default function UIOverlay({
     a.click();
   };
 
+  const [isMobileScreen, setIsMobileScreen] = useState(
+    typeof window !== 'undefined' ? window.innerWidth < 1024 : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileScreen(window.innerWidth < 1024);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <>
       {/* Top Header Removed completely per user request ("also remove the top part") */}
 
-      {/* Floating Action Buttons (Hidden on mobile for a completely clean view) */}
-      <div 
-        className="fixed pointer-events-auto z-30 hide-on-mobile flex items-center gap-1.5 sm:gap-2"
-        style={{
-          top: 'max(12px, env(safe-area-inset-top, 12px))',
-          right: 'max(12px, env(safe-area-inset-right, 12px))'
-        }}
-      >
+      {/* Floating Action Buttons (Removed on mobile/tablet for a completely clean view) */}
+      {!isMobileScreen && (
+        <div 
+          className="fixed pointer-events-auto z-30 hidden lg:flex hide-on-mobile items-center gap-1.5 sm:gap-2"
+          style={{
+            top: 'max(12px, env(safe-area-inset-top, 12px))',
+            right: 'max(12px, env(safe-area-inset-right, 12px))'
+          }}
+        >
         {/* Ambient Music Toggle Button */}
         <button
           onClick={toggleMusic}
@@ -145,6 +158,7 @@ export default function UIOverlay({
           <span className="hidden xs:inline">Customize</span>
         </button>
       </div>
+      )}
 
       {/* Bottom Floating Camera Views Toolbar removed per user request: "remove the buttons below but still show the drag to rotate tap letter chuhcu" */}
 

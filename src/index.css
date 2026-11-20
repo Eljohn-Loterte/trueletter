@@ -254,7 +254,7 @@ button {
 }
 
 /* Responsive visibility utilities */
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
   .hide-on-mobile {
     display: none !important;
   }

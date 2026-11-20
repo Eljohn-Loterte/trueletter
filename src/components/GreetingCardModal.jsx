@@ -472,104 +472,102 @@ Because loving you is deeper than the bottom of the sea.`;
               </svg>
 
               {/* ========================================================
-                  SQUARED-UP TITLE TYPOGRAPHY (Matching Reference Image)
-                  Line 1: small "A", big "STORY"
-                  Line 2: small "TO", big "T" (crimson), small "ELL"
-                  ALL CAPS, Flush Justified Block Lockup!
+                  COVER TITLE: "A STORY TO TELL"
+                  - Thin font (Tenor Sans / Plus Jakarta Sans 300)
+                  - No border box
+                  - Sticks close together
+                  - Line 1: A (half height) stepping on the floor + STORY (tall)
+                  - Line 2: TO (tall, same as STORY) + TELL (half height) sticking on the ceiling
                   ======================================================== */}
               <div
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  width: '240px',
-                  padding: '16px 14px',
-                  border: '1.5px solid rgba(139, 38, 30, 0.35)',
-                  backgroundColor: 'rgba(255, 255, 255, 0.22)',
-                  boxShadow: '0 4px 18px rgba(145, 120, 90, 0.12), inset 0 0 12px rgba(255, 255, 255, 0.4)',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0px',
                   userSelect: 'none',
-                  zIndex: 2
+                  zIndex: 2,
+                  marginTop: '-4px'
                 }}
               >
-                {/* ROW 1: small A (18px) + big STORY (44px) flush to edges */}
+                {/* LINE 1: A (half height, on floor) + STORY (tall) */}
                 <div
                   style={{
                     display: 'flex',
-                    alignItems: 'baseline',
-                    justifyContent: 'space-between',
-                    width: '100%',
-                    lineHeight: 0.95,
-                    marginBottom: '6px'
+                    alignItems: 'flex-end',
+                    justifyContent: 'center',
+                    gap: '10px',
+                    lineHeight: 0.95
                   }}
                 >
                   <span
                     style={{
-                      fontFamily: "'Plus Jakarta Sans', 'Poppins', sans-serif",
-                      fontSize: '18px',
-                      fontWeight: '800',
-                      letterSpacing: '2px',
-                      color: '#423328'
+                      fontFamily: "'Tenor Sans', 'Plus Jakarta Sans', sans-serif",
+                      fontSize: '28px',
+                      fontWeight: '300',
+                      letterSpacing: '3px',
+                      textTransform: 'uppercase',
+                      color: '#2b231c',
+                      lineHeight: 0.95,
+                      transform: 'translateY(-2px)'
                     }}
                   >
                     A
                   </span>
                   <span
                     style={{
-                      fontFamily: "'Plus Jakarta Sans', 'Poppins', 'Impact', sans-serif",
-                      fontSize: '44px',
-                      fontWeight: '900',
-                      letterSpacing: '3px',
-                      color: '#1a1410'
+                      fontFamily: "'Tenor Sans', 'Plus Jakarta Sans', sans-serif",
+                      fontSize: '56px',
+                      fontWeight: '300',
+                      letterSpacing: '5px',
+                      textTransform: 'uppercase',
+                      color: '#1a1410',
+                      lineHeight: 0.95
                     }}
                   >
                     STORY
                   </span>
                 </div>
 
-                {/* ROW 2: small TO (18px) + big T (44px, crimson) + small ELL (24px) flush to edges */}
+                {/* LINE 2: TO (tall, same as STORY) + TELL (half height, on ceiling) */}
                 <div
                   style={{
                     display: 'flex',
-                    alignItems: 'baseline',
-                    justifyContent: 'space-between',
-                    width: '100%',
-                    lineHeight: 0.95
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                    gap: '10px',
+                    lineHeight: 0.95,
+                    marginTop: '2px'
                   }}
                 >
                   <span
                     style={{
-                      fontFamily: "'Plus Jakarta Sans', 'Poppins', sans-serif",
-                      fontSize: '18px',
-                      fontWeight: '800',
-                      letterSpacing: '2px',
-                      color: '#423328'
+                      fontFamily: "'Tenor Sans', 'Plus Jakarta Sans', sans-serif",
+                      fontSize: '56px',
+                      fontWeight: '300',
+                      letterSpacing: '5px',
+                      textTransform: 'uppercase',
+                      color: '#1a1410',
+                      lineHeight: 0.95
                     }}
                   >
                     TO
                   </span>
-                  <div style={{ display: 'flex', alignItems: 'baseline' }}>
-                    <span
-                      style={{
-                        fontFamily: "'Plus Jakarta Sans', 'Poppins', 'Impact', sans-serif",
-                        fontSize: '44px',
-                        fontWeight: '900',
-                        letterSpacing: '1px',
-                        color: '#8b261e' // Big crimson T accent
-                      }}
-                    >
-                      T
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "'Plus Jakarta Sans', 'Poppins', 'Impact', sans-serif",
-                        fontSize: '24px',
-                        fontWeight: '900',
-                        letterSpacing: '2.5px',
-                        color: '#1a1410'
-                      }}
-                    >
-                      ELL
-                    </span>
-                  </div>
+                  <span
+                    style={{
+                      fontFamily: "'Tenor Sans', 'Plus Jakarta Sans', sans-serif",
+                      fontSize: '28px',
+                      fontWeight: '300',
+                      letterSpacing: '4px',
+                      textTransform: 'uppercase',
+                      color: '#2b231c',
+                      lineHeight: 0.95,
+                      transform: 'translateY(2px)'
+                    }}
+                  >
+                    TELL
+                  </span>
                 </div>
               </div>
 
