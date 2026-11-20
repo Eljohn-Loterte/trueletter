@@ -17,23 +17,40 @@ export default function GreetingCardModal({
   const recipient = settings?.recipient || 'chuchu';
   const sender = settings?.sender || 'chuchu';
 
-  const defaultPoem = `Every petal gathered in the dawn,
-Holds a whisper of your tender grace,
-Dancing like the sunbeam on the lawn,
-To light your world and warm your space.
+  const defaultPoem = `Kind of hard to focus when you’re floating through my mind,
+A pretty little siren leaving every thought behind.
+I’m caught inside your current, swept completely off my feet,
+With a cute and clever magic that is shorely hard to beat.
 
-In your eyes, a haven soft and deep,
-Where the sweetest joys forever bloom,
-Every tender promise that we keep,
-Chases far away the winter gloom.
+Every time you flash that smile, it hits just like a wave,
+I’m drowning in your dimples—and I don't want to be saved.
+You’re FIN-tastic and radiant, a literal work of art,
+Who effortlessly dove into the deep end of my heart.
 
-Take this fragrant bouquet, pure and true,
-With all the love my heart can send,
-My fondest thoughts belong to you,
-Today, tomorrow, without end.`;
+Even when I try to tread the line and play it cool,
+One look from you reduces me to just a lovesick fool.
+No floaties and no lifeboats could ever keep me dry,
+When swimming in your love is how I want to live and die.
+
+So forget the shallow waters where the timid people stay,
+I’d rather sink into your charm and wash my doubts away.
+You’ve got me hooked, no kelp about it, tangled in your grace,
+The brightest, sweetest treasure in this vast and ocean space.
+
+Head over heels, I’m buoyant just from standing next to you,
+My favorite kind of tide that pulls my whole horizon blue.
+You’re sea-riously breathtaking from your laughter to your eyes,
+A cute and pretty miracle beneath these summer skies.
+
+All my days are better now that you have made a splash,
+Turning ordinary moments into gold from simple ash.
+So let’s keep swimming forward, hand in hand, just you and me,
+Because loving you is deeper than the bottom of the sea.`;
 
   const rawMessage = settings?.giftMessage;
-  const isOldDefault = !rawMessage || rawMessage.includes('Every petal in this bouquet was gathered');
+  const isOldDefault = !rawMessage || 
+    rawMessage.includes('Every petal in this bouquet was gathered') ||
+    rawMessage.includes('Every petal gathered in the dawn');
   const activePoem = isOldDefault ? defaultPoem : rawMessage;
 
   useEffect(() => {
@@ -322,6 +339,7 @@ Today, tomorrow, without end.`;
                 2. BACK FACE: ONE-PAGE LETTER (Flipped 180deg)
                 ======================================================== */}
             <div
+              className="card-scroll"
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -335,92 +353,94 @@ Today, tomorrow, without end.`;
                 borderRadius: '0',
                 border: '1px solid rgba(205, 190, 168, 0.75)',
                 boxShadow: 'inset 0 0 45px rgba(180, 160, 130, 0.18)',
-                padding: '42px 34px 34px 34px',
+                padding: '32px 26px 26px 26px',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between',
-                overflow: 'hidden'
+                justifyContent: 'flex-start',
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                WebkitOverflowScrolling: 'touch',
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'rgba(180, 140, 100, 0.4) transparent'
               }}
             >
               {/* Top Header: A letter 4 u */}
-              <div>
-                <div style={{ textAlign: 'center', marginBottom: '26px' }}>
-                  <p
-                    style={{
-                      fontFamily: "'Poppins', sans-serif",
-                      fontSize: '13px',
-                      fontWeight: '600',
-                      textTransform: 'uppercase',
-                      letterSpacing: '4.5px',
-                      color: '#5c4d3e',
-                      margin: 0
-                    }}
-                  >
-                    A letter 4 u
-                  </p>
-                </div>
-
-                {/* Poem Body in Poppins with Big Decorative Initial Letter for Each Stanza */}
-                <div
-                  style={{
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: '13px',
-                    lineHeight: '1.75',
-                    fontWeight: '400',
-                    color: '#2d251f'
-                  }}
-                >
-                  {stanzas.map((stanza, sIdx) => {
-                    const firstLine = stanza[0] || '';
-                    const firstChar = firstLine.charAt(0);
-                    const firstLineRest = firstLine.slice(1);
-                    const remainingLines = stanza.slice(1);
-
-                    return (
-                      <div key={sIdx} style={{ marginBottom: '16px', lineHeight: '1.75' }}>
-                        {firstChar && (
-                          <span
-                            style={{
-                              float: 'left',
-                              fontSize: '50px',
-                              lineHeight: '38px',
-                              paddingTop: '2px',
-                              paddingRight: firstChar === 'I' ? '6px' : '8px',
-                              paddingBottom: '0px',
-                              fontFamily: "'Cormorant Garamond', Georgia, serif",
-                              fontWeight: 'bold',
-                              color: '#8b261e',
-                              textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)',
-                              userSelect: 'none'
-                            }}
-                          >
-                            {firstChar}
-                          </span>
-                        )}
-                        <span style={{ fontStyle: 'italic' }}>{firstLineRest}</span>
-                        {remainingLines.map((line, idx) => (
-                          <React.Fragment key={idx}>
-                            <br />
-                            <span style={{ fontStyle: 'italic' }}>{line}</span>
-                          </React.Fragment>
-                        ))}
-                        <div style={{ clear: 'both' }} />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Bottom Sign-off ending with "Sincerely yours, chuchu ❤️" */}
-              <div style={{ textAlign: 'right', marginTop: 'auto', paddingTop: '10px' }}>
+              <div style={{ textAlign: 'center', marginBottom: '20px', flexShrink: 0 }}>
                 <p
                   style={{
                     fontFamily: "'Poppins', sans-serif",
-                    fontSize: '12.5px',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    textTransform: 'uppercase',
+                    letterSpacing: '4px',
+                    color: '#5c4d3e',
+                    margin: 0
+                  }}
+                >
+                  A letter 4 u
+                </p>
+              </div>
+
+              {/* Poem Body in Poppins with Big Decorative Initial Letter for Each Stanza */}
+              <div
+                style={{
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: '12.5px',
+                  lineHeight: '1.7',
+                  fontWeight: '400',
+                  color: '#2d251f'
+                }}
+              >
+                {stanzas.map((stanza, sIdx) => {
+                  const firstLine = stanza[0] || '';
+                  const firstChar = firstLine.charAt(0);
+                  const firstLineRest = firstLine.slice(1);
+                  const remainingLines = stanza.slice(1);
+
+                  return (
+                    <div key={sIdx} style={{ marginBottom: '16px', lineHeight: '1.7' }}>
+                      {firstChar && (
+                        <span
+                          style={{
+                            float: 'left',
+                            fontSize: '46px',
+                            lineHeight: '36px',
+                            paddingTop: '2px',
+                            paddingRight: firstChar === 'I' ? '5px' : '7px',
+                            paddingBottom: '0px',
+                            fontFamily: "'Cormorant Garamond', Georgia, serif",
+                            fontWeight: 'bold',
+                            color: '#8b261e',
+                            textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)',
+                            userSelect: 'none'
+                          }}
+                        >
+                          {firstChar}
+                        </span>
+                      )}
+                      <span style={{ fontStyle: 'italic' }}>{firstLineRest}</span>
+                      {remainingLines.map((line, idx) => (
+                        <React.Fragment key={idx}>
+                          <br />
+                          <span style={{ fontStyle: 'italic' }}>{line}</span>
+                        </React.Fragment>
+                      ))}
+                      <div style={{ clear: 'both' }} />
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Bottom Sign-off ending with "Sincerely yours, chuchu ❤️" */}
+              <div style={{ textAlign: 'right', marginTop: '20px', paddingTop: '10px', flexShrink: 0 }}>
+                <p
+                  style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: '12px',
                     letterSpacing: '0.5px',
                     color: '#6e6052',
-                    margin: '0 0 3px 0'
+                    margin: '0 0 2px 0'
                   }}
                 >
                   Sincerely yours,
@@ -428,7 +448,7 @@ Today, tomorrow, without end.`;
                 <h2
                   style={{
                     fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontSize: '32px',
+                    fontSize: '30px',
                     fontWeight: 'bold',
                     fontStyle: 'italic',
                     color: '#8b261e',

@@ -18,20 +18,35 @@ const DEFAULT_PERFECT_SETTINGS = {
   showGiftTag: true,       // 3D Love letter envelope pops out in front
   autoRotate: false,       // Free orbit controls
   recipient: 'chuchu',     // Dear chuchu letter
-  giftMessage: `Every petal gathered in the dawn,
-Holds a whisper of your tender grace,
-Dancing like the sunbeam on the lawn,
-To light your world and warm your space.
+  giftMessage: `Kind of hard to focus when you’re floating through my mind,
+A pretty little siren leaving every thought behind.
+I’m caught inside your current, swept completely off my feet,
+With a cute and clever magic that is shorely hard to beat.
 
-In your eyes, a haven soft and deep,
-Where the sweetest joys forever bloom,
-Every tender promise that we keep,
-Chases far away the winter gloom.
+Every time you flash that smile, it hits just like a wave,
+I’m drowning in your dimples—and I don't want to be saved.
+You’re FIN-tastic and radiant, a literal work of art,
+Who effortlessly dove into the deep end of my heart.
 
-Take this fragrant bouquet, pure and true,
-With all the love my heart can send,
-My fondest thoughts belong to you,
-Today, tomorrow, without end.`,
+Even when I try to tread the line and play it cool,
+One look from you reduces me to just a lovesick fool.
+No floaties and no lifeboats could ever keep me dry,
+When swimming in your love is how I want to live and die.
+
+So forget the shallow waters where the timid people stay,
+I’d rather sink into your charm and wash my doubts away.
+You’ve got me hooked, no kelp about it, tangled in your grace,
+The brightest, sweetest treasure in this vast and ocean space.
+
+Head over heels, I’m buoyant just from standing next to you,
+My favorite kind of tide that pulls my whole horizon blue.
+You’re sea-riously breathtaking from your laughter to your eyes,
+A cute and pretty miracle beneath these summer skies.
+
+All my days are better now that you have made a splash,
+Turning ordinary moments into gold from simple ash.
+So let’s keep swimming forward, hand in hand, just you and me,
+Because loving you is deeper than the bottom of the sea.`,
   sender: 'chuchu'         // Sincerely yours, chuchu
 };
 
