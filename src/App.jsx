@@ -18,35 +18,35 @@ const DEFAULT_PERFECT_SETTINGS = {
   showGiftTag: true,       // 3D Love letter envelope pops out in front
   autoRotate: false,       // Free orbit controls
   recipient: 'chuchu',     // Dear chuchu letter
-  giftMessage: `Kind of hard to focus when you’re floating through my mind,
-A pretty little siren leaving every thought behind.
-I’m caught inside your current, swept completely off my feet,
-With a cute and clever magic that is shorely hard to beat.
+  giftMessage: `Kind of funny at the start,
+Just a pretty passerby.
+Kept my guard up on the shore,
+Didn't even wonder why.
 
-Every time you flash that smile, it hits just like a wave,
-I’m drowning in your dimples—and I don't want to be saved.
-You’re FIN-tastic and radiant, a literal work of art,
-Who effortlessly dove into the deep end of my heart.
+Even with that cute half-smile,
+I was floating, calm and cool.
+Barely felt a single wave
+In my quiet little pool.
 
-Even when I try to tread the line and play it cool,
-One look from you reduces me to just a lovesick fool.
-No floaties and no lifeboats could ever keep me dry,
-When swimming in your love is how I want to live and die.
+Easy though, the current pulled,
+Drifting closer day by day.
+Lost my footing, lost my tread,
+Letting all my doubts wash away.
 
-So forget the shallow waters where the timid people stay,
-I’d rather sink into your charm and wash my doubts away.
-You’ve got me hooked, no kelp about it, tangled in your grace,
-The brightest, sweetest treasure in this vast and ocean space.
+Suddenly I hit the deep—
+FIN-ally it clicked so fast:
+I was drowning in your charm,
+Hooked and sinking hard at last.
 
-Head over heels, I’m buoyant just from standing next to you,
-My favorite kind of tide that pulls my whole horizon blue.
-You’re sea-riously breathtaking from your laughter to your eyes,
-A cute and pretty miracle beneath these summer skies.
+How'd "not really" turn to this?
+Now I'm swimming straight to you.
+Sea-riously swept away
+By a love I never knew.
 
-All my days are better now that you have made a splash,
-Turning ordinary moments into gold from simple ash.
-So let’s keep swimming forward, hand in hand, just you and me,
-Because loving you is deeper than the bottom of the sea.`,
+All my guards are underwater,
+No more trying to stay dry.
+Started out not caring much
+Now you're my whole ocean sky.`,
   sender: 'chuchu'         // Sincerely yours, chuchu
 };
 

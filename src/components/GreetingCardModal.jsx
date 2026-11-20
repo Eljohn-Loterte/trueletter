@@ -18,40 +18,41 @@ export default function GreetingCardModal({
   const recipient = settings?.recipient || 'chuchu';
   const sender = settings?.sender || 'chuchu';
 
-  const defaultPoem = `Kind of hard to focus when you’re floating through my mind,
-A pretty little siren leaving every thought behind.
-I’m caught inside your current, swept completely off my feet,
-With a cute and clever magic that is shorely hard to beat.
+  const defaultPoem = `Kind of funny at the start,
+Just a pretty passerby.
+Kept my guard up on the shore,
+Didn't even wonder why.
 
-Every time you flash that smile, it hits just like a wave,
-I’m drowning in your dimples—and I don't want to be saved.
-You’re FIN-tastic and radiant, a literal work of art,
-Who effortlessly dove into the deep end of my heart.
+Even with that cute half-smile,
+I was floating, calm and cool.
+Barely felt a single wave
+In my quiet little pool.
 
-Even when I try to tread the line and play it cool,
-One look from you reduces me to just a lovesick fool.
-No floaties and no lifeboats could ever keep me dry,
-When swimming in your love is how I want to live and die.
+Easy though, the current pulled,
+Drifting closer day by day.
+Lost my footing, lost my tread,
+Letting all my doubts wash away.
 
-So forget the shallow waters where the timid people stay,
-I’d rather sink into your charm and wash my doubts away.
-You’ve got me hooked, no kelp about it, tangled in your grace,
-The brightest, sweetest treasure in this vast and ocean space.
+Suddenly I hit the deep—
+FIN-ally it clicked so fast:
+I was drowning in your charm,
+Hooked and sinking hard at last.
 
-Head over heels, I’m buoyant just from standing next to you,
-My favorite kind of tide that pulls my whole horizon blue.
-You’re sea-riously breathtaking from your laughter to your eyes,
-A cute and pretty miracle beneath these summer skies.
+How'd "not really" turn to this?
+Now I'm swimming straight to you.
+Sea-riously swept away
+By a love I never knew.
 
-All my days are better now that you have made a splash,
-Turning ordinary moments into gold from simple ash.
-So let’s keep swimming forward, hand in hand, just you and me,
-Because loving you is deeper than the bottom of the sea.`;
+All my guards are underwater,
+No more trying to stay dry.
+Started out not caring much
+Now you're my whole ocean sky.`;
 
   const rawMessage = settings?.giftMessage;
   const isOldDefault = !rawMessage || 
     rawMessage.includes('Every petal in this bouquet was gathered') ||
-    rawMessage.includes('Every petal gathered in the dawn');
+    rawMessage.includes('Every petal gathered in the dawn') ||
+    rawMessage.includes('Kind of hard to focus when you’re floating through my mind');
   const activePoem = isOldDefault ? defaultPoem : rawMessage;
 
   useEffect(() => {
@@ -262,15 +263,16 @@ Because loving you is deeper than the bottom of the sea.`;
               <path d={`M ${pageWidth - 19},${pageHeight - 29} L ${pageWidth - 29},${pageHeight - 29} L ${pageWidth - 29},${pageHeight - 19}`} fill="none" stroke="rgba(145, 120, 90, 0.6)" strokeWidth="1" />
             </svg>
 
-            {/* Stanzas 4, 5, 6 (S, H, A) */}
+            {/* Stanzas 4, 5, 6 (S, H, A) - Centered in Orchid font */}
             <div
               style={{
-                fontFamily: "'Poppins', sans-serif",
-                fontSize: '11px',
-                lineHeight: '1.52',
-                color: '#2d251f',
+                fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
+                fontSize: '12.5px',
+                lineHeight: '1.65',
+                color: '#2a221b',
+                textAlign: 'center',
                 zIndex: 2,
-                marginTop: '4px'
+                marginTop: '6px'
               }}
             >
               {rightPageStanzas.map((stanza, sIdx) => {
@@ -280,45 +282,41 @@ Because loving you is deeper than the bottom of the sea.`;
                 const remainingLines = stanza.slice(1);
 
                 return (
-                  <div key={sIdx} style={{ marginBottom: '9px', lineHeight: '1.52' }}>
-                    {firstChar && (
-                      <span
-                        style={{
-                          float: 'left',
-                          fontSize: '34px',
-                          lineHeight: '26px',
-                          paddingTop: '1px',
-                          paddingRight: firstChar === 'I' ? '4px' : '5px',
-                          fontFamily: "'Cormorant Garamond', Georgia, serif",
-                          fontWeight: 'bold',
-                          color: '#8b261e',
-                          textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)',
-                          userSelect: 'none'
-                        }}
-                      >
-                        {firstChar}
-                      </span>
-                    )}
-                    <span style={{ fontStyle: 'italic' }}>{firstLineRest}</span>
+                  <div key={sIdx} style={{ marginBottom: '14px', lineHeight: '1.65', textAlign: 'center' }}>
+                    <div>
+                      {firstChar && (
+                        <span
+                          style={{
+                            fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
+                            fontWeight: 'bold',
+                            fontSize: '16px',
+                            color: '#8b261e',
+                            textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)'
+                          }}
+                        >
+                          {firstChar}
+                        </span>
+                      )}
+                      <span style={{ fontStyle: 'italic' }}>{firstLineRest}</span>
+                    </div>
                     {remainingLines.map((line, idx) => (
-                      <React.Fragment key={idx}>
-                        <br />
-                        <span style={{ fontStyle: 'italic' }}>{line}</span>
-                      </React.Fragment>
+                      <div key={idx} style={{ fontStyle: 'italic' }}>
+                        {line}
+                      </div>
                     ))}
-                    <div style={{ clear: 'both' }} />
                   </div>
                 );
               })}
             </div>
 
-            {/* Sign-off & Page Number */}
-            <div style={{ zIndex: 2, marginTop: 'auto', paddingTop: '4px' }}>
-              <div style={{ textAlign: 'right' }}>
+            {/* Centered Sign-off & Page Number */}
+            <div style={{ zIndex: 2, marginTop: 'auto', paddingTop: '4px', textAlign: 'center' }}>
+              <div style={{ textAlign: 'center' }}>
                 <p
                   style={{
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: '10px',
+                    fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
+                    fontSize: '11px',
+                    fontStyle: 'italic',
                     letterSpacing: '0.5px',
                     color: '#6e6052',
                     margin: '0 0 1px 0'
@@ -328,8 +326,8 @@ Because loving you is deeper than the bottom of the sea.`;
                 </p>
                 <h2
                   style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontSize: '22px',
+                    fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
+                    fontSize: '24px',
                     fontWeight: 'bold',
                     fontStyle: 'italic',
                     color: '#8b261e',
@@ -341,10 +339,10 @@ Because loving you is deeper than the bottom of the sea.`;
                 </h2>
               </div>
 
-              <div style={{ textAlign: 'center', marginTop: '4px' }}>
+              <div style={{ textAlign: 'center', marginTop: '6px' }}>
                 <span
                   style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
                     fontSize: '11px',
                     fontStyle: 'italic',
                     color: '#8c765e'
@@ -500,9 +498,9 @@ Because loving you is deeper than the bottom of the sea.`;
                 >
                   <span
                     style={{
-                      fontFamily: "'Tenor Sans', 'Plus Jakarta Sans', sans-serif",
+                      fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
                       fontSize: '28px',
-                      fontWeight: '300',
+                      fontWeight: '400',
                       letterSpacing: '3px',
                       textTransform: 'uppercase',
                       color: '#2b231c',
@@ -514,9 +512,9 @@ Because loving you is deeper than the bottom of the sea.`;
                   </span>
                   <span
                     style={{
-                      fontFamily: "'Tenor Sans', 'Plus Jakarta Sans', sans-serif",
+                      fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
                       fontSize: '56px',
-                      fontWeight: '300',
+                      fontWeight: '400',
                       letterSpacing: '5px',
                       textTransform: 'uppercase',
                       color: '#1a1410',
@@ -540,9 +538,9 @@ Because loving you is deeper than the bottom of the sea.`;
                 >
                   <span
                     style={{
-                      fontFamily: "'Tenor Sans', 'Plus Jakarta Sans', sans-serif",
+                      fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
                       fontSize: '56px',
-                      fontWeight: '300',
+                      fontWeight: '400',
                       letterSpacing: '5px',
                       textTransform: 'uppercase',
                       color: '#1a1410',
@@ -553,9 +551,9 @@ Because loving you is deeper than the bottom of the sea.`;
                   </span>
                   <span
                     style={{
-                      fontFamily: "'Tenor Sans', 'Plus Jakarta Sans', sans-serif",
+                      fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
                       fontSize: '28px',
-                      fontWeight: '300',
+                      fontWeight: '400',
                       letterSpacing: '4px',
                       textTransform: 'uppercase',
                       color: '#2b231c',
@@ -581,7 +579,7 @@ Because loving you is deeper than the bottom of the sea.`;
               >
                 <span
                   style={{
-                    fontFamily: "'Poppins', sans-serif",
+                    fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
                     fontSize: '11px',
                     letterSpacing: '2.5px',
                     textTransform: 'uppercase',
@@ -648,31 +646,33 @@ Because loving you is deeper than the bottom of the sea.`;
                 <path d={`M 19,${pageHeight - 29} L 29,${pageHeight - 29} L 29,${pageHeight - 19}`} fill="none" stroke="rgba(145, 120, 90, 0.6)" strokeWidth="1" />
               </svg>
 
-              {/* Top Header: A letter 4 u */}
+              {/* Top Header: A story to tell */}
               <div style={{ textAlign: 'center', marginBottom: '8px', flexShrink: 0, zIndex: 2 }}>
                 <p
                   style={{
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: '11px',
+                    fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
+                    fontSize: '12px',
                     fontWeight: '600',
                     textTransform: 'uppercase',
-                    letterSpacing: '4px',
+                    letterSpacing: '4.5px',
                     color: '#5c4d3e',
                     margin: 0
                   }}
                 >
-                  A letter 4 u
+                  A story to tell
                 </p>
               </div>
 
-              {/* Stanzas 1, 2, 3 (K, E, E) */}
+              {/* Stanzas 1, 2, 3 (K, E, E) - Centered in Orchid font */}
               <div
                 style={{
-                  fontFamily: "'Poppins', sans-serif",
-                  fontSize: '11px',
-                  lineHeight: '1.52',
-                  color: '#2d251f',
-                  zIndex: 2
+                  fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
+                  fontSize: '12.5px',
+                  lineHeight: '1.65',
+                  color: '#2a221b',
+                  textAlign: 'center',
+                  zIndex: 2,
+                  marginTop: '6px'
                 }}
               >
                 {leftPageStanzas.map((stanza, sIdx) => {
@@ -682,33 +682,28 @@ Because loving you is deeper than the bottom of the sea.`;
                   const remainingLines = stanza.slice(1);
 
                   return (
-                    <div key={sIdx} style={{ marginBottom: '9px', lineHeight: '1.52' }}>
-                      {firstChar && (
-                        <span
-                          style={{
-                            float: 'left',
-                            fontSize: '34px',
-                            lineHeight: '26px',
-                            paddingTop: '1px',
-                            paddingRight: firstChar === 'I' ? '4px' : '5px',
-                            fontFamily: "'Cormorant Garamond', Georgia, serif",
-                            fontWeight: 'bold',
-                            color: '#8b261e',
-                            textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)',
-                            userSelect: 'none'
-                          }}
-                        >
-                          {firstChar}
-                        </span>
-                      )}
-                      <span style={{ fontStyle: 'italic' }}>{firstLineRest}</span>
+                    <div key={sIdx} style={{ marginBottom: '14px', lineHeight: '1.65', textAlign: 'center' }}>
+                      <div>
+                        {firstChar && (
+                          <span
+                            style={{
+                              fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
+                              fontWeight: 'bold',
+                              fontSize: '16px',
+                              color: '#8b261e',
+                              textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)'
+                            }}
+                          >
+                            {firstChar}
+                          </span>
+                        )}
+                        <span style={{ fontStyle: 'italic' }}>{firstLineRest}</span>
+                      </div>
                       {remainingLines.map((line, idx) => (
-                        <React.Fragment key={idx}>
-                          <br />
-                          <span style={{ fontStyle: 'italic' }}>{line}</span>
-                        </React.Fragment>
+                        <div key={idx} style={{ fontStyle: 'italic' }}>
+                          {line}
+                        </div>
                       ))}
-                      <div style={{ clear: 'both' }} />
                     </div>
                   );
                 })}
@@ -718,7 +713,7 @@ Because loving you is deeper than the bottom of the sea.`;
               <div style={{ textAlign: 'center', marginTop: 'auto', paddingTop: '4px', zIndex: 2 }}>
                 <span
                   style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
                     fontSize: '11px',
                     fontStyle: 'italic',
                     color: '#8c765e'
