@@ -16,7 +16,7 @@ export default function GreetingCardModal({
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
   const recipient = settings?.recipient || 'chuchu';
-  const sender = settings?.sender || 'chuchu';
+  const sender = settings?.sender || 'Eljohn';
 
   const defaultPoem = `Kind of funny at the start,
 Just a pretty passerby.
@@ -267,12 +267,12 @@ Now you're my whole ocean sky.`;
             <div
               style={{
                 fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
-                fontSize: '12.5px',
-                lineHeight: '1.65',
+                fontSize: '15px',
+                lineHeight: '1.55',
                 color: '#2a221b',
                 textAlign: 'center',
                 zIndex: 2,
-                marginTop: '6px'
+                marginTop: '4px'
               }}
             >
               {rightPageStanzas.map((stanza, sIdx) => {
@@ -282,14 +282,14 @@ Now you're my whole ocean sky.`;
                 const remainingLines = stanza.slice(1);
 
                 return (
-                  <div key={sIdx} style={{ marginBottom: '14px', lineHeight: '1.65', textAlign: 'center' }}>
+                  <div key={sIdx} style={{ marginBottom: '15px', lineHeight: '1.55', textAlign: 'center' }}>
                     <div>
                       {firstChar && (
                         <span
                           style={{
                             fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
                             fontWeight: 'bold',
-                            fontSize: '16px',
+                            fontSize: '20px',
                             color: '#8b261e',
                             textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)'
                           }}
@@ -315,11 +315,11 @@ Now you're my whole ocean sky.`;
                 <p
                   style={{
                     fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
-                    fontSize: '11px',
+                    fontSize: '13px',
                     fontStyle: 'italic',
                     letterSpacing: '0.5px',
                     color: '#6e6052',
-                    margin: '0 0 1px 0'
+                    margin: '0 0 2px 0'
                   }}
                 >
                   Sincerely yours,
@@ -327,7 +327,7 @@ Now you're my whole ocean sky.`;
                 <h2
                   style={{
                     fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
-                    fontSize: '24px',
+                    fontSize: '28px',
                     fontWeight: 'bold',
                     fontStyle: 'italic',
                     color: '#8b261e',
@@ -335,7 +335,7 @@ Now you're my whole ocean sky.`;
                     margin: 0
                   }}
                 >
-                  {sender} ❤️
+                  Eljohn
                 </h2>
               </div>
 
@@ -343,7 +343,7 @@ Now you're my whole ocean sky.`;
                 <span
                   style={{
                     fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
-                    fontSize: '11px',
+                    fontSize: '12px',
                     fontStyle: 'italic',
                     color: '#8c765e'
                   }}
@@ -651,10 +651,10 @@ Now you're my whole ocean sky.`;
                 <p
                   style={{
                     fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
-                    fontSize: '12px',
+                    fontSize: '13px',
                     fontWeight: '600',
                     textTransform: 'uppercase',
-                    letterSpacing: '4.5px',
+                    letterSpacing: '5px',
                     color: '#5c4d3e',
                     margin: 0
                   }}
@@ -667,12 +667,12 @@ Now you're my whole ocean sky.`;
               <div
                 style={{
                   fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
-                  fontSize: '12.5px',
-                  lineHeight: '1.65',
+                  fontSize: '15px',
+                  lineHeight: '1.55',
                   color: '#2a221b',
                   textAlign: 'center',
                   zIndex: 2,
-                  marginTop: '6px'
+                  marginTop: '4px'
                 }}
               >
                 {leftPageStanzas.map((stanza, sIdx) => {
@@ -682,14 +682,14 @@ Now you're my whole ocean sky.`;
                   const remainingLines = stanza.slice(1);
 
                   return (
-                    <div key={sIdx} style={{ marginBottom: '14px', lineHeight: '1.65', textAlign: 'center' }}>
+                    <div key={sIdx} style={{ marginBottom: '15px', lineHeight: '1.55', textAlign: 'center' }}>
                       <div>
                         {firstChar && (
                           <span
                             style={{
                               fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
                               fontWeight: 'bold',
-                              fontSize: '16px',
+                              fontSize: '20px',
                               color: '#8b261e',
                               textShadow: '0 1px 1px rgba(0, 0, 0, 0.08)'
                             }}
@@ -714,7 +714,7 @@ Now you're my whole ocean sky.`;
                 <span
                   style={{
                     fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
-                    fontSize: '11px',
+                    fontSize: '12px',
                     fontStyle: 'italic',
                     color: '#8c765e'
                   }}
