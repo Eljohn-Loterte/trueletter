@@ -83,7 +83,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-slate-100 font-sans select-none">
+    <div className="relative w-screen h-screen h-[100dvh] overflow-hidden bg-slate-100 font-sans select-none" style={{ height: '100dvh', width: '100vw' }}>
       {/* 3D WebGL Canvas */}
       <BouquetCanvas
         sceneRef={sceneRef}

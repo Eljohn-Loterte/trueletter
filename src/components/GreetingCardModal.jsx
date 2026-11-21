@@ -196,6 +196,7 @@ Now you are my favorite why.`;
             width: isBookOpen ? `${spreadWidth}px` : `${pageWidth}px`,
             height: `${pageHeight}px`,
             perspective: '2500px',
+            WebkitPerspective: '2500px',
             userSelect: 'none',
             transform: `translateX(${mobileShiftX}px)`,
             transition: 'width 0.7s cubic-bezier(0.25, 1, 0.35, 1), transform 0.4s ease'
@@ -372,6 +373,7 @@ Now you are my favorite why.`;
               height: `${pageHeight}px`,
               transformOrigin: 'left center', // Spine hinge
               transformStyle: 'preserve-3d',
+              WebkitTransformStyle: 'preserve-3d',
               transform: isBookOpen ? 'rotateY(-180deg)' : 'rotateY(0deg)',
               transition: 'transform 0.8s cubic-bezier(0.25, 1, 0.35, 1), left 0.7s cubic-bezier(0.25, 1, 0.35, 1)',
               cursor: 'pointer',
@@ -392,8 +394,16 @@ Now you are my favorite why.`;
               style={{
                 position: 'absolute',
                 inset: 0,
+                transform: 'translateZ(1px)',
+                WebkitTransform: 'translateZ(1px)',
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
+                opacity: isBookOpen ? 0 : 1,
+                visibility: isBookOpen ? 'hidden' : 'visible',
+                pointerEvents: isBookOpen ? 'none' : 'auto',
+                transition: isBookOpen
+                  ? 'opacity 0.15s ease 0.32s, visibility 0.15s ease 0.32s'
+                  : 'opacity 0.2s ease 0.35s, visibility 0.2s ease 0.35s',
                 backgroundImage: "url('/paper-texture.jpg')",
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
@@ -408,8 +418,7 @@ Now you are my favorite why.`;
                 alignItems: 'center',
                 justifyContent: 'center',
                 padding: '24px',
-                boxSizing: 'border-box',
-                overflow: 'hidden'
+                boxSizing: 'border-box'
               }}
             >
               {/* Vintage Outer Borders & Corner Accents SVG */}
@@ -601,9 +610,16 @@ Now you are my favorite why.`;
               style={{
                 position: 'absolute',
                 inset: 0,
+                transform: 'rotateY(180deg) translateZ(1px)',
+                WebkitTransform: 'rotateY(180deg) translateZ(1px)',
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
-                transform: 'rotateY(180deg)',
+                opacity: isBookOpen ? 1 : 0,
+                visibility: isBookOpen ? 'visible' : 'hidden',
+                pointerEvents: isBookOpen ? 'auto' : 'none',
+                transition: isBookOpen
+                  ? 'opacity 0.2s ease 0.35s, visibility 0.2s ease 0.35s'
+                  : 'opacity 0.15s ease 0.32s, visibility 0.15s ease 0.32s',
                 backgroundImage: "url('/paper-texture.jpg')",
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
@@ -615,8 +631,7 @@ Now you are my favorite why.`;
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between',
-                overflow: 'hidden'
+                justifyContent: 'space-between'
               }}
             >
               {/* Left Page Background SVG Borders */}

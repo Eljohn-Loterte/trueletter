@@ -445,27 +445,109 @@ export function createBouquetWrapping(wrapColor = '#181a1f', accentColor = '#dfb
   goldBand.rotation.x = Math.PI / 2;
   wrapGroup.add(goldBand);
 
-  // 6. Gathered trimmed stems emerging from the hollow center of the flared handle
+  // 6. Gathered connected stems running continuously from the waist down through the handle and out the bottom
   const stemMat = new THREE.MeshStandardMaterial({
-    color: 0x1f5223,
-    roughness: 0.65
+    color: 0x1d4d1f,
+    roughness: 0.65,
+    metalness: 0.05
+  });
+
+  const stemCoreMat = new THREE.MeshStandardMaterial({
+    color: 0x163d18,
+    roughness: 0.75
+  });
+
+  const stemEndMat = new THREE.MeshStandardMaterial({
+    color: 0x95ba72, // Fresh-cut light green stem core
+    roughness: 0.5,
+    metalness: 0.05
   });
 
   const stemBundle = new THREE.Group();
-  for (let s = 0; s < 22; s++) {
-    const angle = (s / 22) * Math.PI * 2;
-    const r = Math.random() * 0.32;
-    const sx = Math.cos(angle) * r;
-    const sz = Math.sin(angle) * r;
-    const sLen = 0.95 + (Math.random() - 0.5) * 0.18;
 
-    const sGeo = new THREE.CylinderGeometry(0.042, 0.042, sLen, 6);
+  // Solid connected interior core spanning from waist through the bottom, ensuring no hollow void
+  const totalStemLen = handleHeight + 0.85; // ~3.35 units
+  const stemCenterY = waistY - handleHeight * 0.5 - 0.32;
+  const coreGeo = new THREE.CylinderGeometry(0.24, 0.26, totalStemLen * 0.98, 16);
+  const coreMesh = new THREE.Mesh(coreGeo, stemCoreMat);
+  coreMesh.position.y = stemCenterY;
+  coreMesh.castShadow = true;
+  stemBundle.add(coreMesh);
+
+  // 26 Gathered realistic hand-tied rose & filler stems in concentric rings
+  const stemConfigs = [];
+
+  // Inner core ring (6 stems)
+  for (let i = 0; i < 6; i++) {
+    const angle = (i / 6) * Math.PI * 2;
+    stemConfigs.push({ r: 0.10, angle, sLen: totalStemLen });
+  }
+
+  // Middle ring (9 stems)
+  for (let i = 0; i < 9; i++) {
+    const angle = (i / 9) * Math.PI * 2 + 0.22;
+    stemConfigs.push({ r: 0.19, angle, sLen: totalStemLen + (Math.random() - 0.5) * 0.08 });
+  }
+
+  // Outer ring (11 stems)
+  for (let i = 0; i < 11; i++) {
+    const angle = (i / 11) * Math.PI * 2 + 0.45;
+    stemConfigs.push({ r: 0.28, angle, sLen: totalStemLen + (Math.random() - 0.5) * 0.12 });
+  }
+
+  const endCapGeo = new THREE.CircleGeometry(0.042, 8);
+  endCapGeo.rotateX(Math.PI / 2); // Face downward
+
+  stemConfigs.forEach((cfg, idx) => {
+    const sx = Math.cos(cfg.angle) * cfg.r;
+    const sz = Math.sin(cfg.angle) * cfg.r;
+    const sGeo = new THREE.CylinderGeometry(0.042, 0.044, cfg.sLen, 7);
     const sMesh = new THREE.Mesh(sGeo, stemMat);
-    sMesh.position.set(sx, waistY - handleHeight - sLen * 0.35, sz);
-    sMesh.rotation.z = (Math.random() - 0.5) * 0.06;
+    sMesh.position.set(sx, stemCenterY + (cfg.sLen - totalStemLen) * 0.5, sz);
+    // Natural spiral florist twist
+    sMesh.rotation.y = cfg.angle;
+    sMesh.rotation.z = Math.sin(cfg.angle) * 0.035;
+    sMesh.rotation.x = -Math.cos(cfg.angle) * 0.035;
     sMesh.castShadow = true;
     stemBundle.add(sMesh);
-  }
+
+    // Freshly trimmed angled cut disk at bottom of each stem
+    const endCap = new THREE.Mesh(endCapGeo, stemEndMat);
+    endCap.position.set(sx, stemCenterY - cfg.sLen * 0.5, sz);
+    endCap.rotation.z = Math.sin(cfg.angle) * 0.035;
+    endCap.rotation.x = Math.PI / 2 - Math.cos(cfg.angle) * 0.035;
+    stemBundle.add(endCap);
+  });
+
+  // Florist Stem Binding Wrap & Accent Cord connecting and holding all stems together at the bottom
+  const tieWrapGeo = new THREE.CylinderGeometry(0.32, 0.33, 0.20, 24);
+  const tieWrapMat = new THREE.MeshStandardMaterial({
+    color: 0x143818, // Dark florist binding tape
+    roughness: 0.72
+  });
+  const tieWrap = new THREE.Mesh(tieWrapGeo, tieWrapMat);
+  tieWrap.position.y = waistY - handleHeight - 0.12;
+  stemBundle.add(tieWrap);
+
+  // Metallic gold binding cords wrapping around the stems
+  const tieCordMat = new THREE.MeshStandardMaterial({
+    color: new THREE.Color(accentColor),
+    roughness: 0.22,
+    metalness: 0.88
+  });
+
+  const upperTieCordGeo = new THREE.TorusGeometry(0.335, 0.022, 8, 32);
+  const upperTieCord = new THREE.Mesh(upperTieCordGeo, tieCordMat);
+  upperTieCord.position.y = waistY - handleHeight - 0.04;
+  upperTieCord.rotation.x = Math.PI / 2;
+  stemBundle.add(upperTieCord);
+
+  const lowerTieCordGeo = new THREE.TorusGeometry(0.342, 0.022, 8, 32);
+  const lowerTieCord = new THREE.Mesh(lowerTieCordGeo, tieCordMat);
+  lowerTieCord.position.y = waistY - handleHeight - 0.20;
+  lowerTieCord.rotation.x = Math.PI / 2;
+  stemBundle.add(lowerTieCord);
+
   wrapGroup.add(stemBundle);
 
   wrapGroup.userData = {

@@ -233,9 +233,9 @@ export class BouquetScene {
       this.bouquetGroup.add(roseHead);
       this.roses.push(roseHead);
 
-      // Downward Stem: connects flower base gracefully downward to waist
+      // Downward Stem: connects flower base gracefully downward to waist and into lower stem bundle
       const startStem = headPos.clone().add(new THREE.Vector3(0, -0.15, 0));
-      const endStem = new THREE.Vector3(cfg.x * 0.12, waistY, cfg.z * 0.12);
+      const endStem = new THREE.Vector3(cfg.x * 0.12, waistY - 0.15, cfg.z * 0.12);
 
       const stemMesh = createDownwardStem(startStem, endStem);
       this.bouquetGroup.add(stemMesh);
