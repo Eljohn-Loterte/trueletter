@@ -188,46 +188,47 @@ export class BouquetScene {
   }
 
   arrangeRoses() {
-    // Mixed floral luxury arrangement with Sunflowers, Tulips, Lilies, Red Roses, and Daisies
+    // Mixed floral luxury arrangement with Sunflowers pushed to the top crown,
+    // organic differing heights for every bloom, Tulips, Lilies, Red Roses, and Daisies
     const waistY = this.wrappingMesh.userData.waistY || -1.35;
     const count = this.options.roseCount || 13;
 
     const flowerConfigs = [
-      // --- TIER 1: Front Showcase Step (y ≈ 1.64 - 1.70, z ≈ 0.24 - 0.28) ---
-      // Step 1 left: Sweet Coral Tulip
-      { x: -0.85, y: 1.64, z: 0.28,  rx: 0.52, ry: -0.28, scale: 1.05, type: 'tulip', color: '#ff5b79' },
-      // Step 1 center: Romantic Velvet Red Rose right above the envelope
-      { x: 0.0,   y: 1.70, z: 0.24,  rx: 0.46, ry: 0.0,   scale: 1.06, type: 'red_rose', color: '#c8102e' },
-      // Step 1 right: Cheerful Sunny White Daisy with golden center
-      { x: 0.85,  y: 1.64, z: 0.28,  rx: 0.52, ry: 0.28,  scale: 1.02, type: 'daisy' },
+      // --- TIER 5: TOP CROWN (Crown Hero Sunflower dominating the very top!) ---
+      // Peak Crown Hero Sunflower - elevated to y = 3.48, angled gracefully forward toward viewer
+      { x: 0.0,   y: 3.48, z: -1.78, rx: 0.22, ry: 0.0,   scale: 1.28, type: 'sunflower' },
 
-      // --- TIER 2: Mid-Front Step (y ≈ 2.06, z ≈ -0.25) ---
-      // Step 2 left: Deep Velvet Crimson Rose
-      { x: -1.45, y: 2.06, z: -0.25, rx: 0.38, ry: -0.60, scale: 1.02, type: 'red_rose', color: '#ba0c2f' },
-      // Step 2 right: Soft Spring Pink Tulip
-      { x: 1.45,  y: 2.06, z: -0.25, rx: 0.38, ry: 0.60,  scale: 1.04, type: 'tulip', color: '#f472b6' },
+      // --- TIER 4: HIGH UPPER STEP (Lilies & Upper Sunflower at varied heights) ---
+      // High right Stargazer Lily (star petals arching outward)
+      { x: 0.88,  y: 3.22, z: -1.70, rx: 0.16, ry: 0.28,  scale: 1.05, type: 'lily' },
+      // High left Stargazer Lily
+      { x: -1.25, y: 3.08, z: -1.55, rx: 0.18, ry: -0.38, scale: 1.05, type: 'lily' },
+      // High center-left Daisy with golden disc
+      { x: -0.45, y: 2.92, z: -1.42, rx: 0.20, ry: -0.15, scale: 1.00, type: 'daisy' },
+      // Upper-mid left Radiant Sunflower (second sunflower at differing height y = 2.82)
+      { x: -0.80, y: 2.82, z: -1.20, rx: 0.28, ry: -0.22, scale: 1.12, type: 'sunflower' },
 
-      // --- TIER 3: Mid-Center Step (y ≈ 2.44 - 2.50, z ≈ -0.72 - -0.80) ---
-      // Step 3 left: Grand Stargazer Lily with star petals and anthers
-      { x: -0.92, y: 2.44, z: -0.80, rx: 0.26, ry: -0.38, scale: 1.04, type: 'lily' },
-      // Step 3 center: HERO GOLDEN RADIANT SUNFLOWER
-      { x: 0.0,   y: 2.50, z: -0.72, rx: 0.24, ry: 0.0,   scale: 1.15, type: 'sunflower' },
-      // Step 3 right: Passionate Velvet Red Rose
-      { x: 0.92,  y: 2.44, z: -0.80, rx: 0.26, ry: 0.38,  scale: 1.02, type: 'red_rose', color: '#c8102e' },
+      // --- TIER 3: MID-UPPER TIER (Staggered Tulips and Velvet Red Roses) ---
+      // Upper-right warm sunset Tulip
+      { x: 1.35,  y: 2.72, z: -1.10, rx: 0.25, ry: 0.42,  scale: 1.04, type: 'tulip', color: '#fb923c' },
+      // Mid-upper center-right Velvet Crimson Rose
+      { x: 0.65,  y: 2.52, z: -0.88, rx: 0.28, ry: 0.25,  scale: 1.02, type: 'red_rose', color: '#b91326' },
+      // Mid-center deep Velvet Red Rose
+      { x: 0.0,   y: 2.32, z: -0.68, rx: 0.32, ry: 0.0,   scale: 1.06, type: 'red_rose', color: '#c8102e' },
+      // Mid-left rich Ruby Red Rose
+      { x: -1.40, y: 2.22, z: -0.42, rx: 0.35, ry: -0.52, scale: 1.02, type: 'red_rose', color: '#ba0c2f' },
 
-      // --- TIER 4: High Step (y ≈ 2.84 - 2.90, z ≈ -1.42 - -1.48) ---
-      // Step 4 left: Peach Sunset Tulip
-      { x: -1.42, y: 2.84, z: -1.42, rx: 0.18, ry: -0.45, scale: 1.02, type: 'tulip', color: '#fb923c' },
-      // Step 4 center: Second Radiant Golden Sunflower
-      { x: 0.0,   y: 2.90, z: -1.48, rx: 0.12, ry: 0.0,   scale: 1.10, type: 'sunflower' },
-      // Step 4 right: Crisp White Daisy with golden core
-      { x: 1.42,  y: 2.84, z: -1.42, rx: 0.18, ry: 0.45,  scale: 1.02, type: 'daisy' },
+      // --- TIER 2: MID-FRONT TIER ---
+      // Mid-right spring pink chalice Tulip
+      { x: 1.45,  y: 2.12, z: -0.32, rx: 0.36, ry: 0.58,  scale: 1.04, type: 'tulip', color: '#f472b6' },
 
-      // --- TIER 5: Top-Most Crown Step (y ≈ 3.24, z ≈ -1.92) ---
-      // Step 5 crown left: Majestic Star-shaped Lily
-      { x: -0.68, y: 3.24, z: -1.92, rx: 0.08, ry: -0.22, scale: 1.06, type: 'lily' },
-      // Step 5 crown right: Regal Velvet Red Rose
-      { x: 0.68,  y: 3.24, z: -1.92, rx: 0.08, ry: 0.22,  scale: 1.04, type: 'red_rose', color: '#b91326' }
+      // --- TIER 1: FRONT SHOWCASE STEP (Staggered lower heights framing love letter) ---
+      // Front center Velvet Red Rose right above letter
+      { x: 0.0,   y: 1.72, z: 0.24,  rx: 0.46, ry: 0.0,   scale: 1.06, type: 'red_rose', color: '#c8102e' },
+      // Front right sunny white Daisy with golden eye
+      { x: 0.85,  y: 1.62, z: 0.28,  rx: 0.52, ry: 0.28,  scale: 1.02, type: 'daisy' },
+      // Front left sweet coral cup Tulip
+      { x: -0.85, y: 1.58, z: 0.28,  rx: 0.52, ry: -0.28, scale: 1.05, type: 'tulip', color: '#ff5b79' }
     ];
 
     const actualCount = Math.min(count, flowerConfigs.length);
@@ -284,11 +285,11 @@ export class BouquetScene {
   arrangeLavender() {
     this.lavenders = [];
     const lavenderConfigs = [
-      // Top crown spires rising behind the upper lilies and roses
-      { x: -0.35, y: 2.20, z: -1.95, rx: 0.10, ry: -0.15, rz: -0.08, scale: 1.05 },
-      { x: 0.35,  y: 2.20, z: -1.95, rx: 0.10, ry: 0.15,  rz: 0.08,  scale: 1.05 },
-      { x: -1.05, y: 2.00, z: -1.85, rx: 0.14, ry: -0.30, rz: -0.18, scale: 1.00 },
-      { x: 1.05,  y: 2.00, z: -1.85, rx: 0.14, ry: 0.30,  rz: 0.18,  scale: 1.00 },
+      // Top crown spires rising behind the upper sunflower and lilies
+      { x: -0.55, y: 2.35, z: -2.18, rx: 0.12, ry: -0.15, rz: -0.08, scale: 1.08 },
+      { x: 0.55,  y: 2.35, z: -2.18, rx: 0.12, ry: 0.15,  rz: 0.08,  scale: 1.08 },
+      { x: -1.15, y: 2.15, z: -2.05, rx: 0.15, ry: -0.32, rz: -0.18, scale: 1.02 },
+      { x: 1.15,  y: 2.15, z: -2.05, rx: 0.15, ry: 0.32,  rz: 0.18,  scale: 1.02 },
 
       // Mid-tier flank spires arching from sides
       { x: -1.75, y: 1.45, z: -0.65, rx: 0.25, ry: -0.65, rz: -0.28, scale: 0.95 },
@@ -315,10 +316,10 @@ export class BouquetScene {
   arrangeFoliage() {
     // Elegant background and flank leaves framing the bouquet staircase tiers (no leaves in front!)
     const leafPlacements = [
-      // Top crown leaves behind the top 2 flowers
-      { x: 0.0,   y: 3.61, z: -1.95, rx: 0.15, ry: 0.0,   rz: 0.0,  scale: 1.15 },
-      { x: -0.85, y: 3.41, z: -1.90, rx: 0.18, ry: -0.30, rz: 0.20, scale: 1.10 },
-      { x: 0.85,  y: 3.41, z: -1.90, rx: 0.18, ry: 0.30,  rz: -0.20, scale: 1.10 },
+      // Top crown leaves behind the top crown sunflower and lilies
+      { x: 0.0,   y: 3.75, z: -2.25, rx: 0.15, ry: 0.0,   rz: 0.0,  scale: 1.20 },
+      { x: -0.85, y: 3.48, z: -2.15, rx: 0.18, ry: -0.30, rz: 0.20, scale: 1.10 },
+      { x: 0.85,  y: 3.48, z: -2.15, rx: 0.18, ry: 0.30,  rz: -0.20, scale: 1.10 },
 
       // Tier 4 back leaves
       { x: -1.45, y: 3.06, z: -1.45, rx: 0.20, ry: -0.40, rz: 0.25, scale: 1.10 },

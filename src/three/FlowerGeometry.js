@@ -84,7 +84,11 @@ function createSunflowerPetalTexture() {
 }
 
 /**
- * Creates an authentic Sunflower head
+ * Creates an authentic, blooming Sunflower head
+ * Features:
+ * - Three lush, dense rings of radiant golden ray petals (staggered without twisting or distortion)
+ * - Domed dark chocolate espresso seed disc with Fermat spiral florets and golden rim
+ * - Protective calyx with leafy green sepals on the underside
  */
 export function createSunflowerHead() {
   const group = new THREE.Group();
@@ -93,17 +97,18 @@ export function createSunflowerHead() {
   const discTex = createSunflowerDiscTexture();
   const petalTex = createSunflowerPetalTexture();
 
-  // 1. Central Seed Disc
-  const discGeo = new THREE.CylinderGeometry(0.52, 0.46, 0.14, 36);
-  // Slightly dome the top surface
+  // 1. Central Seed Disc (gently domed center)
+  const discRadius = 0.48;
+  const discGeo = new THREE.CylinderGeometry(discRadius, discRadius * 0.88, 0.12, 36, 4);
   const pos = discGeo.attributes.position;
   for (let i = 0; i < pos.count; i++) {
     const y = pos.getY(i);
-    if (y > 0.05) {
+    if (y > 0.03) {
       const x = pos.getX(i);
       const z = pos.getZ(i);
-      const dist = Math.sqrt(x * x + z * z);
-      const dome = Math.max(0, 1 - dist / 0.52) * 0.06;
+      const dist = Math.hypot(x, z);
+      const ratio = Math.min(1, dist / discRadius);
+      const dome = (1 - ratio * ratio) * 0.065;
       pos.setY(i, y + dome);
     }
   }
@@ -112,44 +117,58 @@ export function createSunflowerHead() {
   const discMat = new THREE.MeshStandardMaterial({
     map: discTex,
     roughness: 0.85,
-    metalness: 0.05
+    metalness: 0.04
   });
   const discMesh = new THREE.Mesh(discGeo, discMat);
   discMesh.castShadow = true;
   discMesh.receiveShadow = true;
   group.add(discMesh);
 
-  // 2. Sunflower Ray Petals (2 concentric staggered whorls)
+  // Amber disc-floret transitional ring between disc and ray petals
+  const floretRingGeo = new THREE.TorusGeometry(discRadius * 0.94, 0.032, 8, 36);
+  const floretRingMat = new THREE.MeshStandardMaterial({
+    color: 0x853909,
+    roughness: 0.8
+  });
+  const floretRing = new THREE.Mesh(floretRingGeo, floretRingMat);
+  floretRing.rotation.x = Math.PI / 2;
+  floretRing.position.y = 0.06;
+  group.add(floretRing);
+
+  // 2. Sunflower Ray Petals
   const petalMat = new THREE.MeshStandardMaterial({
     map: petalTex,
-    roughness: 0.42,
+    roughness: 0.38,
     metalness: 0.02,
     side: THREE.DoubleSide
   });
 
-  // Petal geometry: lanceolate with pointed tip and concave ray fold
-  function createSunflowerPetalGeometry(w = 0.22, len = 0.72) {
-    const uSegs = 8;
-    const vSegs = 14;
+  // Petal geometry: built along Z axis (base at z=0, tip at z=len, width along X, normal facing +Y)
+  function createSunflowerPetalGeometry(w = 0.22, len = 0.74) {
+    const uSegs = 10;
+    const vSegs = 16;
     const positions = [];
     const uvs = [];
     const indices = [];
 
     for (let j = 0; j <= vSegs; j++) {
-      const v = j / vSegs;
-      // Lanceolate taper: narrow base, wide middle, acute pointed tip
-      const widthTaper = Math.sin(v * Math.PI) * (1 - Math.pow(v, 2.5) * 0.45);
-      const curW = w * Math.max(0.08, widthTaper);
-      const curl = Math.pow(v, 2.0) * 0.12; // Outward reflex curl
+      const v = j / vSegs; // 0 at base, 1 at tip
+      // Lanceolate taper: narrow base, wide voluptuous body at mid, acute tapered tip
+      const body = Math.sin(v * Math.PI) * (1 - Math.pow(v, 2.8) * 0.42);
+      const curW = w * Math.max(0.12, body);
+
+      // Subtle outward tip curl
+      const tipCurl = Math.pow(v, 2.2) * 0.09;
 
       for (let i = 0; i <= uSegs; i++) {
         const u = i / uSegs;
-        const uCent = (u - 0.5) * 2;
+        const uCent = (u - 0.5) * 2; // -1 to +1
+
         const x = uCent * (curW * 0.5);
-        const y = v * len;
-        // Longitudinal center crease
-        const crease = (1 - Math.abs(uCent)) * 0.045 * Math.sin(v * Math.PI * 0.9);
-        const z = -curl + crease;
+        // Longitudinal center groove/crease
+        const crease = (1 - Math.abs(uCent)) * 0.032 * Math.sin(v * Math.PI * 0.9);
+        const y = crease - tipCurl;
+        const z = v * len;
 
         positions.push(x, y, z);
         uvs.push(u, v);
@@ -175,31 +194,36 @@ export function createSunflowerHead() {
     return geo;
   }
 
-  // Outer ring: 22 long petals
-  const outerPetalGeo = createSunflowerPetalGeometry(0.24, 0.75);
-  for (let i = 0; i < 22; i++) {
-    const angle = (i / 22) * Math.PI * 2;
-    const petal = new THREE.Mesh(outerPetalGeo, petalMat);
-    const r = 0.48;
-    petal.position.set(Math.cos(angle) * r, -0.02, Math.sin(angle) * r);
-    petal.rotation.y = -angle + Math.PI / 2;
-    petal.rotation.x = Math.PI / 2 + 0.18 + (Math.random() - 0.5) * 0.06;
-    petal.castShadow = true;
-    group.add(petal);
+  // Helper to add clean radial rings via rotation pivots (100% distortion-free)
+  function addRadialPetalRing(count, r, petalGeo, layerY, flareAngle, angleOffset = 0) {
+    for (let i = 0; i < count; i++) {
+      const angle = (i / count) * Math.PI * 2 + angleOffset;
+      const pivot = new THREE.Group();
+      pivot.position.y = layerY;
+      pivot.rotation.y = angle;
+
+      const petalMesh = new THREE.Mesh(petalGeo, petalMat);
+      petalMesh.position.z = r;
+      petalMesh.rotation.x = flareAngle;
+      petalMesh.rotation.z = (Math.random() - 0.5) * 0.03;
+      petalMesh.castShadow = true;
+      pivot.add(petalMesh);
+
+      group.add(pivot);
+    }
   }
 
-  // Inner ring: 20 slightly shorter petals, staggered in the gaps
-  const innerPetalGeo = createSunflowerPetalGeometry(0.21, 0.65);
-  for (let i = 0; i < 20; i++) {
-    const angle = (i / 20) * Math.PI * 2 + 0.14;
-    const petal = new THREE.Mesh(innerPetalGeo, petalMat);
-    const r = 0.45;
-    petal.position.set(Math.cos(angle) * r, 0.02, Math.sin(angle) * r);
-    petal.rotation.y = -angle + Math.PI / 2;
-    petal.rotation.x = Math.PI / 2 + 0.08 + (Math.random() - 0.5) * 0.05;
-    petal.castShadow = true;
-    group.add(petal);
-  }
+  // Layer 1 (Outer): 24 long sweeping petals
+  const outerPetalGeo = createSunflowerPetalGeometry(0.24, 0.78);
+  addRadialPetalRing(24, 0.44, outerPetalGeo, -0.02, 0.15, 0);
+
+  // Layer 2 (Middle): 22 medium petals, staggered in gaps
+  const midPetalGeo = createSunflowerPetalGeometry(0.21, 0.68);
+  addRadialPetalRing(22, 0.42, midPetalGeo, 0.01, 0.09, Math.PI / 22);
+
+  // Layer 3 (Inner): 18 shorter accent petals framing the seed disc
+  const innerPetalGeo = createSunflowerPetalGeometry(0.18, 0.54);
+  addRadialPetalRing(18, 0.40, innerPetalGeo, 0.03, 0.03, Math.PI / 18);
 
   // 3. Green calyx and sepals on underside
   const greenMat = new THREE.MeshStandardMaterial({
@@ -207,24 +231,29 @@ export function createSunflowerHead() {
     roughness: 0.65
   });
 
-  const baseBulbGeo = new THREE.CylinderGeometry(0.48, 0.18, 0.22, 24);
+  const baseBulbGeo = new THREE.CylinderGeometry(0.44, 0.16, 0.20, 24);
   const baseBulb = new THREE.Mesh(baseBulbGeo, greenMat);
-  baseBulb.position.y = -0.12;
+  baseBulb.position.y = -0.10;
   baseBulb.castShadow = true;
   group.add(baseBulb);
 
-  for (let s = 0; s < 14; s++) {
-    const angle = (s / 14) * Math.PI * 2;
-    const sepalGeo = new THREE.ConeGeometry(0.06, 0.32, 4);
-    sepalGeo.rotateX(Math.PI / 2);
+  const sepalGeo = new THREE.ConeGeometry(0.08, 0.36, 5);
+  sepalGeo.rotateX(Math.PI / 2);
+
+  for (let s = 0; s < 16; s++) {
+    const angle = (s / 16) * Math.PI * 2;
+    const pivot = new THREE.Group();
+    pivot.position.y = -0.06;
+    pivot.rotation.y = angle;
+
     const sepal = new THREE.Mesh(sepalGeo, greenMat);
-    sepal.position.set(Math.cos(angle) * 0.42, -0.08, Math.sin(angle) * 0.42);
-    sepal.rotation.y = -angle + Math.PI / 2;
-    sepal.rotation.x = 0.4;
-    group.add(sepal);
+    sepal.position.z = 0.40;
+    sepal.rotation.x = -0.32; // Tucks snugly underneath the ray petals
+    pivot.add(sepal);
+    group.add(pivot);
   }
 
-  group.scale.set(1.15, 1.15, 1.15);
+  group.scale.set(1.18, 1.18, 1.18);
   return group;
 }
 
