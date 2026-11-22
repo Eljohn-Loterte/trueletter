@@ -127,19 +127,23 @@ export function createSunflowerHead() {
   // Amber disc-floret transitional ring between disc and ray petals
   const floretRingGeo = new THREE.TorusGeometry(discRadius * 0.94, 0.032, 8, 36);
   const floretRingMat = new THREE.MeshStandardMaterial({
-    color: 0x853909,
-    roughness: 0.8
+    color: 0x9a440c,
+    roughness: 0.72,
+    emissive: 0x3d1704,
+    emissiveIntensity: 0.25
   });
   const floretRing = new THREE.Mesh(floretRingGeo, floretRingMat);
   floretRing.rotation.x = Math.PI / 2;
   floretRing.position.y = 0.06;
   group.add(floretRing);
 
-  // 2. Sunflower Ray Petals
+  // 2. Sunflower Ray Petals (vivid golden sunshine with radiant warm presence)
   const petalMat = new THREE.MeshStandardMaterial({
     map: petalTex,
-    roughness: 0.38,
+    roughness: 0.35,
     metalness: 0.02,
+    emissive: 0x241400,
+    emissiveIntensity: 0.28,
     side: THREE.DoubleSide
   });
 

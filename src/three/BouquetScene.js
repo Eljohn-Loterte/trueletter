@@ -194,41 +194,41 @@ export class BouquetScene {
     const count = this.options.roseCount || 13;
 
     const flowerConfigs = [
-      // --- TIER 5: TOP CROWN (Crown Hero Sunflower popped higher, facing front at 45 degree angle!) ---
-      // Peak Crown Hero Sunflower - elevated to y = 3.82, tilted forward at 45° (rx = 0.785 rad)
-      { x: 0.0,   y: 3.82, z: -1.58, rx: 0.785, ry: 0.0,   scale: 1.32, type: 'sunflower' },
+      // --- TIER 5: TOP CROWN (Crown Hero Sunflower dominating the apex, tilted forward at 48°!) ---
+      // Peak Crown Hero Sunflower - elevated to y = 4.15, pushed forward to z = -1.30, scale = 1.42
+      { x: 0.0,   y: 4.15, z: -1.30, rx: 0.84, ry: 0.0,   scale: 1.42, type: 'sunflower' },
 
-      // --- TIER 4: HIGH UPPER STEP (Lilies & Upper Sunflower at varied heights) ---
-      // High right Stargazer Lily (star petals arching outward)
-      { x: 0.95,  y: 3.25, z: -1.68, rx: 0.24, ry: 0.28,  scale: 1.05, type: 'lily' },
-      // High left Stargazer Lily
-      { x: -1.30, y: 3.12, z: -1.55, rx: 0.25, ry: -0.38, scale: 1.05, type: 'lily' },
-      // Upper-mid left Radiant Sunflower (second sunflower elevated to y = 3.02, tilted forward at 42°)
-      { x: -0.80, y: 3.02, z: -1.15, rx: 0.72, ry: -0.22, scale: 1.15, type: 'sunflower' },
-      // High center-left Daisy with golden disc
-      { x: -0.42, y: 2.95, z: -1.40, rx: 0.30, ry: -0.15, scale: 1.00, type: 'daisy' },
+      // --- TIER 4: HIGH UPPER STEP (Lilies & Secondary Sunflower pushed clear of any overlap) ---
+      // High right Stargazer Lily (pushed wide to right flank to never be covered by crown sunflower)
+      { x: 1.62,  y: 3.28, z: -1.25, rx: 0.35, ry: 0.52,  scale: 1.12, type: 'lily' },
+      // High left Stargazer Lily (pushed wide to left flank clear of crown and secondary sunflowers)
+      { x: -1.68, y: 3.25, z: -1.25, rx: 0.35, ry: -0.55, scale: 1.12, type: 'lily' },
+      // Upper-mid left Radiant Sunflower (elevated to y = 3.25, stepped forward to z = -0.75, scale = 1.25, tilted forward at 45°)
+      { x: -1.05, y: 3.25, z: -0.75, rx: 0.78, ry: -0.28, scale: 1.25, type: 'sunflower' },
+      // High Daisy with golden disc (moved from under crown sunflower into clear sunny right window)
+      { x: 0.52,  y: 2.95, z: -0.70, rx: 0.38, ry: 0.18,  scale: 1.05, type: 'daisy' },
 
-      // --- TIER 3: MID-UPPER TIER (Staggered Tulips and Velvet Red Roses) ---
-      // Upper-right warm sunset Tulip
-      { x: 1.35,  y: 2.72, z: -1.10, rx: 0.25, ry: 0.42,  scale: 1.04, type: 'tulip', color: '#fb923c' },
-      // Mid-upper center-right Velvet Crimson Rose
-      { x: 0.65,  y: 2.52, z: -0.88, rx: 0.28, ry: 0.25,  scale: 1.02, type: 'red_rose', color: '#b91326' },
-      // Mid-center deep Velvet Red Rose
-      { x: 0.0,   y: 2.32, z: -0.68, rx: 0.32, ry: 0.0,   scale: 1.06, type: 'red_rose', color: '#c8102e' },
-      // Mid-left rich Ruby Red Rose
-      { x: -1.40, y: 2.22, z: -0.42, rx: 0.35, ry: -0.52, scale: 1.02, type: 'red_rose', color: '#ba0c2f' },
+      // --- TIER 3: MID-UPPER TIER (Pushed so flowers beneath sunflowers are 100% visible) ---
+      // Upper-right warm sunset Tulip (pushed outward on right)
+      { x: 1.55,  y: 2.68, z: -0.75, rx: 0.38, ry: 0.52,  scale: 1.08, type: 'tulip', color: '#fb923c' },
+      // Mid-upper center-right Velvet Crimson Rose (clear of crown sunflower)
+      { x: 0.85,  y: 2.45, z: -0.45, rx: 0.40, ry: 0.30,  scale: 1.06, type: 'red_rose', color: '#b91326' },
+      // Mid-center deep Velvet Red Rose (stepped forward with clear line-of-sight)
+      { x: 0.0,   y: 2.25, z: -0.15, rx: 0.42, ry: 0.0,   scale: 1.08, type: 'red_rose', color: '#c8102e' },
+      // Mid-left rich Ruby Red Rose (pushed outward & forward so secondary sunflower doesn't cover it)
+      { x: -1.62, y: 2.05, z: -0.18, rx: 0.45, ry: -0.58, scale: 1.05, type: 'red_rose', color: '#ba0c2f' },
 
       // --- TIER 2: MID-FRONT TIER ---
       // Mid-right spring pink chalice Tulip
-      { x: 1.45,  y: 2.12, z: -0.32, rx: 0.36, ry: 0.58,  scale: 1.04, type: 'tulip', color: '#f472b6' },
+      { x: 1.48,  y: 2.05, z: -0.12, rx: 0.42, ry: 0.58,  scale: 1.06, type: 'tulip', color: '#f472b6' },
 
-      // --- TIER 1: FRONT SHOWCASE STEP (Staggered lower heights framing love letter) ---
+      // --- TIER 1: FRONT SHOWCASE STEP (Lower tier framing love letter) ---
       // Front center Velvet Red Rose right above letter
-      { x: 0.0,   y: 1.72, z: 0.24,  rx: 0.46, ry: 0.0,   scale: 1.06, type: 'red_rose', color: '#c8102e' },
+      { x: 0.0,   y: 1.65, z: 0.42,  rx: 0.50, ry: 0.0,   scale: 1.08, type: 'red_rose', color: '#c8102e' },
       // Front right sunny white Daisy with golden eye
-      { x: 0.85,  y: 1.62, z: 0.28,  rx: 0.52, ry: 0.28,  scale: 1.02, type: 'daisy' },
+      { x: 0.90,  y: 1.52, z: 0.42,  rx: 0.52, ry: 0.32,  scale: 1.04, type: 'daisy' },
       // Front left sweet coral cup Tulip
-      { x: -0.85, y: 1.58, z: 0.28,  rx: 0.52, ry: -0.28, scale: 1.05, type: 'tulip', color: '#ff5b79' }
+      { x: -0.90, y: 1.50, z: 0.42,  rx: 0.52, ry: -0.32, scale: 1.06, type: 'tulip', color: '#ff5b79' }
     ];
 
     const actualCount = Math.min(count, flowerConfigs.length);
@@ -316,18 +316,18 @@ export class BouquetScene {
   arrangeFoliage() {
     // Elegant background and flank leaves framing the bouquet staircase tiers (no leaves in front!)
     const leafPlacements = [
-      // Top crown leaves behind the top crown sunflower and lilies
-      { x: 0.0,   y: 3.75, z: -2.25, rx: 0.15, ry: 0.0,   rz: 0.0,  scale: 1.20 },
-      { x: -0.85, y: 3.48, z: -2.15, rx: 0.18, ry: -0.30, rz: 0.20, scale: 1.10 },
-      { x: 0.85,  y: 3.48, z: -2.15, rx: 0.18, ry: 0.30,  rz: -0.20, scale: 1.10 },
+      // Top crown leaves behind the elevated crown sunflower and lilies
+      { x: 0.0,   y: 4.25, z: -2.15, rx: 0.15, ry: 0.0,   rz: 0.0,  scale: 1.25 },
+      { x: -1.15, y: 3.85, z: -1.95, rx: 0.18, ry: -0.32, rz: 0.20, scale: 1.15 },
+      { x: 1.15,  y: 3.85, z: -1.95, rx: 0.18, ry: 0.32,  rz: -0.20, scale: 1.15 },
 
-      // Tier 4 back leaves
-      { x: -1.45, y: 3.06, z: -1.45, rx: 0.20, ry: -0.40, rz: 0.25, scale: 1.10 },
-      { x: 1.45,  y: 3.06, z: -1.45, rx: 0.20, ry: 0.40,  rz: -0.25, scale: 1.10 },
+      // Tier 4 back leaves framing the flank lilies
+      { x: -1.85, y: 3.20, z: -1.45, rx: 0.20, ry: -0.50, rz: 0.25, scale: 1.15 },
+      { x: 1.85,  y: 3.20, z: -1.45, rx: 0.20, ry: 0.50,  rz: -0.25, scale: 1.15 },
 
       // Tier 2 flank side leaves
-      { x: -1.85, y: 2.31, z: -0.45, rx: 0.35, ry: -0.75, rz: 0.30, scale: 1.15 },
-      { x: 1.85,  y: 2.31, z: -0.45, rx: 0.35, ry: 0.75,  rz: -0.30, scale: 1.15 },
+      { x: -2.05, y: 2.25, z: -0.45, rx: 0.35, ry: -0.80, rz: 0.30, scale: 1.15 },
+      { x: 2.05,  y: 2.25, z: -0.45, rx: 0.35, ry: 0.80,  rz: -0.30, scale: 1.15 },
 
       // Deep crevices between middle-back roses (rear fill)
       { x: -0.55, y: 2.36, z: -0.75, rx: 0.30, ry: -0.25, rz: 0.20, scale: 0.85 },
