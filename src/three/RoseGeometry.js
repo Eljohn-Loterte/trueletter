@@ -10,19 +10,29 @@ function createRosePetalTexture(baseColorHex = '#fdfcf7') {
   canvas.height = 512;
   const ctx = canvas.getContext('2d');
 
-  // Background: gradient from warm creamy champagne at the base (v=0, bottom)
-  // to luminous bridal white at the reflexed margin (v=1, top)
+  const c = new THREE.Color(baseColorHex);
+  const isRed = c.r > 0.5 && c.r > (c.g + 0.2);
+
   const grad = ctx.createLinearGradient(0, 512, 0, 0);
-  grad.addColorStop(0.0, '#f4ebd4'); // Warm golden champagne at base
-  grad.addColorStop(0.25, '#faedd9'); // Soft ivory
-  grad.addColorStop(0.65, '#faf7f0'); // Creamy white
-  grad.addColorStop(1.0, '#ffffff'); // Pure luminous white rim
+  if (isRed) {
+    // Velvety romantic deep crimson rose gradient
+    grad.addColorStop(0.0, '#4a050d'); // Deep dark wine at base
+    grad.addColorStop(0.25, '#7a0917'); // Rich burgundy
+    grad.addColorStop(0.65, '#b91326'); // Vibrant velvety red
+    grad.addColorStop(1.0, '#dc2638'); // Luminous crimson edge
+  } else {
+    // Warm creamy champagne to luminous bridal white
+    grad.addColorStop(0.0, '#f4ebd4'); // Warm golden champagne at base
+    grad.addColorStop(0.25, '#faedd9'); // Soft ivory
+    grad.addColorStop(0.65, '#faf7f0'); // Creamy white
+    grad.addColorStop(1.0, '#ffffff'); // Pure luminous white rim
+  }
 
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 512, 512);
 
   // Soft translucent radiating micro-veins
-  ctx.strokeStyle = 'rgba(235, 222, 198, 0.45)';
+  ctx.strokeStyle = isRed ? 'rgba(65, 5, 12, 0.45)' : 'rgba(235, 222, 198, 0.45)';
   ctx.lineWidth = 1.5;
 
   const numVeins = 32;
@@ -38,7 +48,7 @@ function createRosePetalTexture(baseColorHex = '#fdfcf7') {
   }
 
   // Soft lateral branching micro-capillaries
-  ctx.strokeStyle = 'rgba(240, 230, 210, 0.25)';
+  ctx.strokeStyle = isRed ? 'rgba(75, 8, 16, 0.25)' : 'rgba(240, 230, 210, 0.25)';
   ctx.lineWidth = 0.8;
   for (let j = 0; j < 40; j++) {
     const y = 80 + Math.random() * 380;
@@ -128,8 +138,11 @@ function createRealisticTeaRosePetalGeometry(width = 0.78, height = 0.96, cupDep
  * Creates the tight spiral swirl center (the iconic heart of the tea rose in Image 2)
  * 10 interlocking petals forming an elegant Archimedean spiral vortex
  */
-function createRoseSpiralHeart(petalMat) {
+function createRoseSpiralHeart(petalMat, roseColor = '#fdfcf7') {
   const heartGroup = new THREE.Group();
+
+  const c = new THREE.Color(roseColor);
+  const isRed = c.r > 0.5 && c.r > (c.g + 0.2);
 
   // Spiral vortex: 10 tightly curled petals wrapping around the center axis
   const spiralPetalCount = 10;
@@ -158,10 +171,10 @@ function createRoseSpiralHeart(petalMat) {
     heartGroup.add(mesh);
   }
 
-  // Inner warm champagne core cone so center is never hollow
+  // Inner core cone so center is never hollow
   const coreGeo = new THREE.ConeGeometry(0.11, 0.48, 14);
   const coreMat = new THREE.MeshStandardMaterial({
-    color: 0xf5edd8,
+    color: isRed ? 0x5a0712 : 0xf5edd8,
     roughness: 0.65
   });
   const core = new THREE.Mesh(coreGeo, coreMat);
@@ -220,7 +233,7 @@ export function createRoseHead(roseColor = '#fdfcf7') {
   }
 
   // 1. Tight Spiral Heart (10 interlocking petals)
-  const heart = createRoseSpiralHeart(petalMaterial);
+  const heart = createRoseSpiralHeart(petalMaterial, roseColor);
   rose.add(heart);
 
   // 2. 4 Concentric Whorls of Fibonacci Petals (25 outer petals) - Luscious, blooming dimensions!

@@ -6,13 +6,13 @@ import GreetingCardModal from './components/GreetingCardModal.jsx';
 import { soundManager } from './utils/audioSynth.js';
 
 // Default settings matching user's newest spec:
-// White tea roses (Image 2), Onyx silk with gold stripes (Image 1), Whitish silk ribbon, No overlap
+// Mixed luxury floral bouquet: Sunflowers, Tulips, Lilies, Red Roses, Lavender, and Daisies
 const DEFAULT_PERFECT_SETTINGS = {
-  roseColor: '#fdfcf7',    // Pristine bridal white roses (Image 2 match)
+  roseColor: '#c8102e',    // Velvet romantic red roses
   wrapColor: '#181a1f',    // Onyx silk with random gold stripes (Image 1 match)
   accentColor: '#dfb858',  // Metallic gold borders and accent stripes
   ribbonColor: '#fcfbf8',  // Whitish silk ribbon bow
-  roseCount: 13,           // 13 roses in 5-tier staircase arrangement
+  roseCount: 13,           // 13 mixed luxury blooms in 5-tier arrangement
   showFauna: true,         // Hummingbirds & butterflies
   showParticles: true,     // Subtle fairy dust sparkles
   showGiftTag: true,       // 3D Love letter envelope pops out in front

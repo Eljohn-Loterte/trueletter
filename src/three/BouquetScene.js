@@ -1,6 +1,13 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createRoseHead, createDownwardStem, createProminentLeafSpray } from './RoseGeometry.js';
+import { 
+  createSunflowerHead, 
+  createTulipHead, 
+  createLilyHead, 
+  createLavenderSpire, 
+  createDaisyHead 
+} from './FlowerGeometry.js';
 import { createBabysBreathSprig } from './FillerGeometry.js';
 import { createBouquetWrapping } from './WrappingGeometry.js';
 import { createRibbonBow } from './RibbonGeometry.js';
@@ -13,11 +20,11 @@ export class BouquetScene {
   constructor(container, options = {}) {
     this.container = container;
     this.options = {
-      roseColor: '#fdfcf7',    // Luminous bridal white tea rose matching Image 2
+      roseColor: '#c8102e',    // Velvet romantic crimson red rose
       wrapColor: '#181a1f',    // Onyx silk with gold stripes matching Image 1
       accentColor: '#dfb858',  // Metallic gold accents & borders
       ribbonColor: '#fcfbf8',  // Whitish silk ribbon matching user request
-      roseCount: 13,           // 13 roses leveled in a staircase with 2 top-most roses!
+      roseCount: 13,           // 13 mixed luxury blooms in staircase tiers
       showFauna: true,
       showParticles: false,    // Turned off intrusive floating flakes
       showGiftTag: true,       // Love letter pops out and is clickable!
@@ -144,6 +151,7 @@ export class BouquetScene {
     }
     this.roses = [];
     this.stems = [];
+    this.lavenders = [];
     this.fillers = [];
     this.leaves = [];
 
@@ -157,16 +165,19 @@ export class BouquetScene {
     this.ribbonMesh = createRibbonBow(this.options.ribbonColor, waistRadius, waistY);
     this.bouquetGroup.add(this.ribbonMesh);
 
-    // 3. Side-by-Side White Tea Roses (Popped out, larger blooming scale, ZERO overlap!)
+    // 3. Mixed Floral Masterpiece (Sunflowers, Tulips, Lilies, Red Roses, Daisies)
     this.arrangeRoses();
 
-    // 4. Prominent Green Leaves Popping Out
+    // 4. Fragrant Lavender Spires framing the bouquet
+    this.arrangeLavender();
+
+    // 5. Prominent Green Leaves Framing the Bouquet
     this.arrangeFoliage();
 
-    // 5. Fine Baby's Breath sprays
+    // 6. Fine Baby's Breath sprays
     this.arrangeFillers();
 
-    // 6. Interactive 3D Love Letter Envelope (Pops out in front, clickable!)
+    // 7. Interactive 3D Love Letter Envelope (Pops out in front, clickable!)
     this.giftTag = createGiftTag(
       this.options.recipient || 'Dear chuchu',
       this.options.giftMessage || 'Forever & Always in my heart',
@@ -177,61 +188,88 @@ export class BouquetScene {
   }
 
   arrangeRoses() {
-    // 1. Staircase tiered elevation (lifted higher by a bit of pixels: y ≈ 1.64 up to y ≈ 3.24!)
-    // 2. Exactly 2 roses added behind the group at the top-most position (Rose 11 & Rose 12)
-    // 3. Front roses safely inside the front collar (z = 0.24 - 0.28)
-    // 4. Strictly zero overlap: all pairwise 3D distances >= 0.853 units!
+    // Mixed floral luxury arrangement with Sunflowers, Tulips, Lilies, Red Roses, and Daisies
     const waistY = this.wrappingMesh.userData.waistY || -1.35;
     const count = this.options.roseCount || 13;
 
-    const roseConfigs = [
-      // --- TIER 1: Front Showcase Step (elevated to y ≈ 1.64 - 1.70, z ≈ 0.24 - 0.28) ---
-      { x: -0.85, y: 1.64, z: 0.28,  rx: 0.52, ry: -0.28, scale: 1.02 }, // Step 1 left
-      { x: 0.0,   y: 1.70, z: 0.24,  rx: 0.46, ry: 0.0,   scale: 1.04 }, // Step 1 center
-      { x: 0.85,  y: 1.64, z: 0.28,  rx: 0.52, ry: 0.28,  scale: 1.02 }, // Step 1 right
+    const flowerConfigs = [
+      // --- TIER 1: Front Showcase Step (y ≈ 1.64 - 1.70, z ≈ 0.24 - 0.28) ---
+      // Step 1 left: Sweet Coral Tulip
+      { x: -0.85, y: 1.64, z: 0.28,  rx: 0.52, ry: -0.28, scale: 1.05, type: 'tulip', color: '#ff5b79' },
+      // Step 1 center: Romantic Velvet Red Rose right above the envelope
+      { x: 0.0,   y: 1.70, z: 0.24,  rx: 0.46, ry: 0.0,   scale: 1.06, type: 'red_rose', color: '#c8102e' },
+      // Step 1 right: Cheerful Sunny White Daisy with golden center
+      { x: 0.85,  y: 1.64, z: 0.28,  rx: 0.52, ry: 0.28,  scale: 1.02, type: 'daisy' },
 
-      // --- TIER 2: Mid-Front Step (elevated to y ≈ 2.06, z ≈ -0.25) ---
-      { x: -1.45, y: 2.06, z: -0.25, rx: 0.38, ry: -0.60, scale: 1.00 }, // Step 2 left
-      { x: 1.45,  y: 2.06, z: -0.25, rx: 0.38, ry: 0.60,  scale: 1.00 }, // Step 2 right
+      // --- TIER 2: Mid-Front Step (y ≈ 2.06, z ≈ -0.25) ---
+      // Step 2 left: Deep Velvet Crimson Rose
+      { x: -1.45, y: 2.06, z: -0.25, rx: 0.38, ry: -0.60, scale: 1.02, type: 'red_rose', color: '#ba0c2f' },
+      // Step 2 right: Soft Spring Pink Tulip
+      { x: 1.45,  y: 2.06, z: -0.25, rx: 0.38, ry: 0.60,  scale: 1.04, type: 'tulip', color: '#f472b6' },
 
-      // --- TIER 3: Mid-Center Step (elevated to y ≈ 2.44 - 2.50, z ≈ -0.72 - -0.80) ---
-      { x: -0.92, y: 2.44, z: -0.80, rx: 0.26, ry: -0.38, scale: 1.00 }, // Step 3 left
-      { x: 0.0,   y: 2.50, z: -0.72, rx: 0.24, ry: 0.0,   scale: 1.05 }, // Step 3 center
-      { x: 0.92,  y: 2.44, z: -0.80, rx: 0.26, ry: 0.38,  scale: 1.00 }, // Step 3 right
+      // --- TIER 3: Mid-Center Step (y ≈ 2.44 - 2.50, z ≈ -0.72 - -0.80) ---
+      // Step 3 left: Grand Stargazer Lily with star petals and anthers
+      { x: -0.92, y: 2.44, z: -0.80, rx: 0.26, ry: -0.38, scale: 1.04, type: 'lily' },
+      // Step 3 center: HERO GOLDEN RADIANT SUNFLOWER
+      { x: 0.0,   y: 2.50, z: -0.72, rx: 0.24, ry: 0.0,   scale: 1.15, type: 'sunflower' },
+      // Step 3 right: Passionate Velvet Red Rose
+      { x: 0.92,  y: 2.44, z: -0.80, rx: 0.26, ry: 0.38,  scale: 1.02, type: 'red_rose', color: '#c8102e' },
 
-      // --- TIER 4: High Step (elevated to y ≈ 2.84 - 2.90, z ≈ -1.42 - -1.48) ---
-      { x: -1.42, y: 2.84, z: -1.42, rx: 0.18, ry: -0.45, scale: 1.00 }, // Step 4 left
-      { x: 0.0,   y: 2.90, z: -1.48, rx: 0.12, ry: 0.0,   scale: 1.00 }, // Step 4 center
-      { x: 1.42,  y: 2.84, z: -1.42, rx: 0.18, ry: 0.45,  scale: 1.00 }, // Step 4 right
+      // --- TIER 4: High Step (y ≈ 2.84 - 2.90, z ≈ -1.42 - -1.48) ---
+      // Step 4 left: Peach Sunset Tulip
+      { x: -1.42, y: 2.84, z: -1.42, rx: 0.18, ry: -0.45, scale: 1.02, type: 'tulip', color: '#fb923c' },
+      // Step 4 center: Second Radiant Golden Sunflower
+      { x: 0.0,   y: 2.90, z: -1.48, rx: 0.12, ry: 0.0,   scale: 1.10, type: 'sunflower' },
+      // Step 4 right: Crisp White Daisy with golden core
+      { x: 1.42,  y: 2.84, z: -1.42, rx: 0.18, ry: 0.45,  scale: 1.02, type: 'daisy' },
 
-      // --- TIER 5: Top-Most Crown Step (elevated to y ≈ 3.24, z ≈ -1.92) ---
-      { x: -0.68, y: 3.24, z: -1.92, rx: 0.08, ry: -0.22, scale: 1.02 }, // Step 5 crown left
-      { x: 0.68,  y: 3.24, z: -1.92, rx: 0.08, ry: 0.22,  scale: 1.02 }  // Step 5 crown right
+      // --- TIER 5: Top-Most Crown Step (y ≈ 3.24, z ≈ -1.92) ---
+      // Step 5 crown left: Majestic Star-shaped Lily
+      { x: -0.68, y: 3.24, z: -1.92, rx: 0.08, ry: -0.22, scale: 1.06, type: 'lily' },
+      // Step 5 crown right: Regal Velvet Red Rose
+      { x: 0.68,  y: 3.24, z: -1.92, rx: 0.08, ry: 0.22,  scale: 1.04, type: 'red_rose', color: '#b91326' }
     ];
 
-    const actualCount = Math.min(count, roseConfigs.length);
+    const actualCount = Math.min(count, flowerConfigs.length);
 
     for (let i = 0; i < actualCount; i++) {
-      const cfg = roseConfigs[i];
+      const cfg = flowerConfigs[i];
       const headPos = new THREE.Vector3(cfg.x, cfg.y, cfg.z);
 
-      const roseHead = createRoseHead(this.options.roseColor);
-      roseHead.position.copy(headPos);
-      roseHead.rotation.x = cfg.rx;
-      roseHead.rotation.y = cfg.ry;
-      roseHead.rotation.z = (Math.random() - 0.5) * 0.06;
+      let flowerHead;
+      if (cfg.type === 'sunflower') {
+        flowerHead = createSunflowerHead();
+      } else if (cfg.type === 'tulip') {
+        flowerHead = createTulipHead(cfg.color || '#ff5b79');
+      } else if (cfg.type === 'lily') {
+        flowerHead = createLilyHead();
+      } else if (cfg.type === 'daisy') {
+        flowerHead = createDaisyHead();
+      } else {
+        // Red Rose (honoring user rose color or default crimson)
+        const roseCol = (this.options.roseColor && this.options.roseColor !== '#fdfcf7')
+          ? this.options.roseColor
+          : (cfg.color || '#c8102e');
+        flowerHead = createRoseHead(roseCol);
+      }
+
+      flowerHead.position.copy(headPos);
+      flowerHead.rotation.x = cfg.rx;
+      flowerHead.rotation.y = cfg.ry;
+      flowerHead.rotation.z = (Math.random() - 0.5) * 0.06;
 
       const s = cfg.scale;
-      roseHead.scale.multiplyScalar(s);
+      flowerHead.scale.multiplyScalar(s);
 
-      roseHead.userData = {
+      flowerHead.userData = {
         id: i,
-        baseScale: roseHead.scale.x,
+        flowerType: cfg.type,
+        baseScale: flowerHead.scale.x,
         isFlower: true
       };
 
-      this.bouquetGroup.add(roseHead);
-      this.roses.push(roseHead);
+      this.bouquetGroup.add(flowerHead);
+      this.roses.push(flowerHead);
 
       // Downward Stem: connects flower base gracefully downward to waist and into lower stem bundle
       const startStem = headPos.clone().add(new THREE.Vector3(0, -0.15, 0));
@@ -241,6 +279,37 @@ export class BouquetScene {
       this.bouquetGroup.add(stemMesh);
       this.stems.push(stemMesh);
     }
+  }
+
+  arrangeLavender() {
+    this.lavenders = [];
+    const lavenderConfigs = [
+      // Top crown spires rising behind the upper lilies and roses
+      { x: -0.35, y: 2.20, z: -1.95, rx: 0.10, ry: -0.15, rz: -0.08, scale: 1.05 },
+      { x: 0.35,  y: 2.20, z: -1.95, rx: 0.10, ry: 0.15,  rz: 0.08,  scale: 1.05 },
+      { x: -1.05, y: 2.00, z: -1.85, rx: 0.14, ry: -0.30, rz: -0.18, scale: 1.00 },
+      { x: 1.05,  y: 2.00, z: -1.85, rx: 0.14, ry: 0.30,  rz: 0.18,  scale: 1.00 },
+
+      // Mid-tier flank spires arching from sides
+      { x: -1.75, y: 1.45, z: -0.65, rx: 0.25, ry: -0.65, rz: -0.28, scale: 0.95 },
+      { x: 1.75,  y: 1.45, z: -0.65, rx: 0.25, ry: 0.65,  rz: 0.28,  scale: 0.95 },
+      { x: -1.65, y: 1.75, z: -1.15, rx: 0.18, ry: -0.50, rz: -0.22, scale: 0.95 },
+      { x: 1.65,  y: 1.75, z: -1.15, rx: 0.18, ry: 0.50,  rz: 0.22,  scale: 0.95 },
+
+      // Infill between steps
+      { x: -0.65, y: 1.55, z: -0.45, rx: 0.32, ry: -0.22, rz: -0.12, scale: 0.90 },
+      { x: 0.65,  y: 1.55, z: -0.45, rx: 0.32, ry: 0.22,  rz: 0.12,  scale: 0.90 }
+    ];
+
+    lavenderConfigs.forEach((cfg) => {
+      const spire = createLavenderSpire();
+      spire.position.set(cfg.x, cfg.y, cfg.z);
+      spire.rotation.set(cfg.rx, cfg.ry, cfg.rz);
+      spire.scale.set(cfg.scale, cfg.scale, cfg.scale);
+      spire.castShadow = true;
+      this.bouquetGroup.add(spire);
+      this.lavenders.push(spire);
+    });
   }
 
   arrangeFoliage() {
@@ -414,13 +483,15 @@ export class BouquetScene {
     this.options.roseColor = hexColor;
     const color = new THREE.Color(hexColor);
     this.roses.forEach((rose) => {
-      rose.traverse((child) => {
-        if (child.isMesh && child.material) {
-          if (child.material.color && child.material.roughness <= 0.46) {
-            child.material.color.copy(color);
+      if (!rose.userData || rose.userData.flowerType === 'red_rose' || rose.name === 'rose') {
+        rose.traverse((child) => {
+          if (child.isMesh && child.material) {
+            if (child.material.color && child.material.roughness <= 0.46) {
+              child.material.color.copy(color);
+            }
           }
-        }
-      });
+        });
+      }
     });
   }
 

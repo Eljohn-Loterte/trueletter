@@ -12,8 +12,8 @@ import {
 } from 'lucide-react';
 
 export const ROSE_PALETTES = [
-  { id: 'white', name: 'Bridal White', color: '#fdfcf7', desc: 'Image 2 white rose match' },
-  { id: 'crimson', name: 'Velvet Crimson', color: '#d31027', desc: 'Classic red rose' },
+  { id: 'crimson', name: 'Velvet Crimson', color: '#c8102e', desc: 'Passionate red rose' },
+  { id: 'white', name: 'Bridal White', color: '#fdfcf7', desc: 'Luminous bridal white' },
   { id: 'wine', name: 'Deep Burgundy', color: '#820b1e', desc: 'Vintage romantic wine' },
   { id: 'blush', name: 'Pastel Blush', color: '#ea7088', desc: 'Soft tender pink' },
   { id: 'coral', name: 'Sunset Coral', color: '#ee5d43', desc: 'Warm vibrant romance' },
