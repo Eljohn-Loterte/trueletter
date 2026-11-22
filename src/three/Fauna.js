@@ -178,18 +178,18 @@ export class FaunaManager {
   }
 
   initFauna() {
-    // 1. Top Right Hummingbird
+    // 1. Top Right Hummingbird (hovering in clear open air outside the cover)
     const hb1 = createHummingbird(0xb83838);
-    hb1.basePos = new THREE.Vector3(2.4, 2.3, 1.2);
-    hb1.radius = 0.35;
+    hb1.basePos = new THREE.Vector3(3.3, 2.6, 2.1);
+    hb1.radius = 0.28;
     hb1.phase = 0;
     this.scene.add(hb1.group);
     this.hummingbirds.push(hb1);
 
-    // 2. Mid Right Hummingbird
+    // 2. Mid Right Hummingbird (hovering in clear front-right air well outside the wrapping wing)
     const hb2 = createHummingbird(0xa83232);
-    hb2.basePos = new THREE.Vector3(2.6, 1.4, 0.9);
-    hb2.radius = 0.25;
+    hb2.basePos = new THREE.Vector3(3.2, 1.6, 2.3);
+    hb2.radius = 0.24;
     hb2.phase = 2.1;
     this.scene.add(hb2.group);
     this.hummingbirds.push(hb2);

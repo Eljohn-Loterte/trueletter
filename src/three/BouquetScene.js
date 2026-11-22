@@ -215,8 +215,8 @@ export class BouquetScene {
       { x: 0.85,  y: 2.45, z: -0.45, rx: 0.40, ry: 0.30,  scale: 1.06, type: 'red_rose', color: '#b91326' },
       // Mid-center deep Velvet Red Rose (stepped forward with clear line-of-sight)
       { x: 0.0,   y: 2.25, z: -0.15, rx: 0.42, ry: 0.0,   scale: 1.08, type: 'red_rose', color: '#c8102e' },
-      // Mid-left rich Ruby Red Rose (pushed outward & forward so secondary sunflower doesn't cover it)
-      { x: -1.62, y: 2.05, z: -0.18, rx: 0.45, ry: -0.58, scale: 1.05, type: 'red_rose', color: '#ba0c2f' },
+      // Mid-left rich Ruby Red Rose (moved to its right to tuck securely inside cover without clipping)
+      { x: -1.25, y: 2.10, z: -0.22, rx: 0.42, ry: -0.42, scale: 1.05, type: 'red_rose', color: '#ba0c2f' },
 
       // --- TIER 2: MID-FRONT TIER ---
       // Mid-right spring pink chalice Tulip
