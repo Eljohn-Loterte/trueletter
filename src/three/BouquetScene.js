@@ -194,19 +194,19 @@ export class BouquetScene {
     const count = this.options.roseCount || 13;
 
     const flowerConfigs = [
-      // --- TIER 5: TOP CROWN (Crown Hero Sunflower dominating the very top!) ---
-      // Peak Crown Hero Sunflower - elevated to y = 3.48, angled gracefully forward toward viewer
-      { x: 0.0,   y: 3.48, z: -1.78, rx: 0.22, ry: 0.0,   scale: 1.28, type: 'sunflower' },
+      // --- TIER 5: TOP CROWN (Crown Hero Sunflower popped higher, facing front at 45 degree angle!) ---
+      // Peak Crown Hero Sunflower - elevated to y = 3.82, tilted forward at 45° (rx = 0.785 rad)
+      { x: 0.0,   y: 3.82, z: -1.58, rx: 0.785, ry: 0.0,   scale: 1.32, type: 'sunflower' },
 
       // --- TIER 4: HIGH UPPER STEP (Lilies & Upper Sunflower at varied heights) ---
       // High right Stargazer Lily (star petals arching outward)
-      { x: 0.88,  y: 3.22, z: -1.70, rx: 0.16, ry: 0.28,  scale: 1.05, type: 'lily' },
+      { x: 0.95,  y: 3.25, z: -1.68, rx: 0.24, ry: 0.28,  scale: 1.05, type: 'lily' },
       // High left Stargazer Lily
-      { x: -1.25, y: 3.08, z: -1.55, rx: 0.18, ry: -0.38, scale: 1.05, type: 'lily' },
+      { x: -1.30, y: 3.12, z: -1.55, rx: 0.25, ry: -0.38, scale: 1.05, type: 'lily' },
+      // Upper-mid left Radiant Sunflower (second sunflower elevated to y = 3.02, tilted forward at 42°)
+      { x: -0.80, y: 3.02, z: -1.15, rx: 0.72, ry: -0.22, scale: 1.15, type: 'sunflower' },
       // High center-left Daisy with golden disc
-      { x: -0.45, y: 2.92, z: -1.42, rx: 0.20, ry: -0.15, scale: 1.00, type: 'daisy' },
-      // Upper-mid left Radiant Sunflower (second sunflower at differing height y = 2.82)
-      { x: -0.80, y: 2.82, z: -1.20, rx: 0.28, ry: -0.22, scale: 1.12, type: 'sunflower' },
+      { x: -0.42, y: 2.95, z: -1.40, rx: 0.30, ry: -0.15, scale: 1.00, type: 'daisy' },
 
       // --- TIER 3: MID-UPPER TIER (Staggered Tulips and Velvet Red Roses) ---
       // Upper-right warm sunset Tulip

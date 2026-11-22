@@ -222,6 +222,7 @@ Now you are my favorite why.`;
               backgroundColor: '#fbf4e6',
               borderRadius: '0',
               border: '1px solid rgba(205, 190, 168, 0.8)',
+              borderLeft: isBookOpen ? 'none' : '1px solid rgba(205, 190, 168, 0.8)',
               boxShadow: isBookOpen
                 ? 'inset 0 0 45px rgba(180, 160, 130, 0.18), 0 20px 45px rgba(0, 0, 0, 0.4)'
                 : 'none',
@@ -268,7 +269,7 @@ Now you are my favorite why.`;
             {/* Stanzas 4, 5, 6 (S, H, A) - Centered in Orchid font */}
             <div
               style={{
-                fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
+                fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', 'Italiana', Georgia, serif",
                 fontSize: '16.5px',
                 lineHeight: '1.48',
                 color: '#2a221b',
@@ -289,7 +290,7 @@ Now you are my favorite why.`;
                       {firstChar && (
                         <span
                           style={{
-                            fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
+                            fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', Georgia, serif",
                             fontWeight: 'bold',
                             fontSize: '22px',
                             color: '#8b261e',
@@ -316,7 +317,7 @@ Now you are my favorite why.`;
               <div style={{ textAlign: 'center' }}>
                 <p
                   style={{
-                    fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
+                    fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', Georgia, serif",
                     fontSize: '13px',
                     fontStyle: 'italic',
                     letterSpacing: '0.5px',
@@ -328,7 +329,7 @@ Now you are my favorite why.`;
                 </p>
                 <h2
                   style={{
-                    fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
+                    fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', Georgia, serif",
                     fontSize: '28px',
                     fontWeight: 'bold',
                     fontStyle: 'italic',
@@ -344,7 +345,7 @@ Now you are my favorite why.`;
               <div style={{ textAlign: 'center', marginTop: '6px' }}>
                 <span
                   style={{
-                    fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
+                    fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', Georgia, serif",
                     fontSize: '12px',
                     fontStyle: 'italic',
                     color: '#8c765e'
@@ -508,7 +509,7 @@ Now you are my favorite why.`;
                 >
                   <span
                     style={{
-                      fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
+                      fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', 'Italiana', Georgia, serif",
                       fontSize: '28px',
                       fontWeight: '400',
                       letterSpacing: '3px',
@@ -522,7 +523,7 @@ Now you are my favorite why.`;
                   </span>
                   <span
                     style={{
-                      fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
+                      fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', 'Italiana', Georgia, serif",
                       fontSize: '56px',
                       fontWeight: '400',
                       letterSpacing: '5px',
@@ -548,7 +549,7 @@ Now you are my favorite why.`;
                 >
                   <span
                     style={{
-                      fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
+                      fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', 'Italiana', Georgia, serif",
                       fontSize: '56px',
                       fontWeight: '400',
                       letterSpacing: '5px',
@@ -561,7 +562,7 @@ Now you are my favorite why.`;
                   </span>
                   <span
                     style={{
-                      fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
+                      fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', 'Italiana', Georgia, serif",
                       fontSize: '28px',
                       fontWeight: '400',
                       letterSpacing: '4px',
@@ -589,7 +590,7 @@ Now you are my favorite why.`;
               >
                 <span
                   style={{
-                    fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
+                    fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', Georgia, serif",
                     fontSize: '11px',
                     letterSpacing: '2.5px',
                     textTransform: 'uppercase',
@@ -626,6 +627,7 @@ Now you are my favorite why.`;
                 backgroundColor: '#fbf4e6',
                 borderRadius: '0',
                 border: '1px solid rgba(205, 190, 168, 0.8)',
+                borderRight: isBookOpen ? 'none' : '1px solid rgba(205, 190, 168, 0.8)',
                 boxShadow: 'inset 0 0 45px rgba(180, 160, 130, 0.18), 0 20px 45px rgba(0, 0, 0, 0.4)',
                 padding: '24px 20px 18px 20px',
                 boxSizing: 'border-box',
@@ -666,7 +668,7 @@ Now you are my favorite why.`;
               <div style={{ textAlign: 'center', marginBottom: '8px', flexShrink: 0, zIndex: 2 }}>
                 <p
                   style={{
-                    fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
+                    fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', 'Italiana', Georgia, serif",
                     fontSize: '13px',
                     fontWeight: '600',
                     textTransform: 'uppercase',
@@ -682,7 +684,7 @@ Now you are my favorite why.`;
               {/* Stanzas 1, 2, 3 (K, E, E) - Centered in Orchid font */}
               <div
                 style={{
-                  fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', 'Italiana', Georgia, serif",
+                  fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', 'Italiana', Georgia, serif",
                   fontSize: '16.5px',
                   lineHeight: '1.48',
                   color: '#2a221b',
@@ -703,7 +705,7 @@ Now you are my favorite why.`;
                         {firstChar && (
                           <span
                             style={{
-                              fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
+                              fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', Georgia, serif",
                               fontWeight: 'bold',
                               fontSize: '22px',
                               color: '#8b261e',
@@ -729,7 +731,7 @@ Now you are my favorite why.`;
               <div style={{ textAlign: 'center', marginTop: 'auto', paddingTop: '4px', zIndex: 2 }}>
                 <span
                   style={{
-                    fontFamily: "'Orchid', 'Joules et Jacques', 'Cormorant Garamond', Georgia, serif",
+                    fontFamily: "'Orchid', 'Joules et Jacques', 'Bodoni Moda', 'Italiana', 'Cormorant Garamond', Georgia, serif",
                     fontSize: '12px',
                     fontStyle: 'italic',
                     color: '#8c765e'
